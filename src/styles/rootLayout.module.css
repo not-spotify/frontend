@@ -1,0 +1,17 @@
+.default {
+    height: 100vh;
+}
+
+.separator {
+    background: rgb(0, 0, 0);
+    width: 5px;
+    cursor: col-resize;
+}
+
+.separator:hover {
+    background: rgb(128, 128, 128);
+}
+
+.separator:active {
+    background: rgb(64, 64, 64);
+}

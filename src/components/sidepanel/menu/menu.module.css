@@ -1,0 +1,12 @@
+.default {
+    background-color: rgba(0, 0, 0, 255);
+}
+
+.menuItemListWrapper {
+    background-color: rgba(16, 16, 16, 255);
+    width: 100%;
+}
+
+.menuItemList {
+    width: 100%;
+}
