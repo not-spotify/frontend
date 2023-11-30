@@ -49,7 +49,7 @@ export default function RootLayout(props: IRootLayoutProps) {
 
         const newSidePanelWidthOffset = Math.max(80, Math.min(256, state.sidePanelWidthOffset - dx));
 
-        sideBarDivRefCopy.style.width = `${newSidePanelWidthOffset}px`
+        sideBarDivRefCopy.style.width = `${newSidePanelWidthOffset > 176 ? 256 : 80}px`
         document.body.style.cursor = 'col-resize'
 
         setState((prev) => ({

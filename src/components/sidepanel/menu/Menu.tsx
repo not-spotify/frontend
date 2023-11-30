@@ -14,10 +14,10 @@ export default function Menu()
       <div className={clsx("d-flex text-white p-2", styles.default)}>
         <div className={clsx("rounded", styles.menuItemListWrapper)}>
           <ul className={clsx("nav flex-column text-center", styles.menuItemList)}>
-            <li className="nav-item py-4">
+            <li className="nav-item py-3">
               <FontAwesomeIcon icon={icon({name: 'home'}) } size="xl"/>
             </li>
-            <li className="nav-item py-4">
+            <li className="nav-item py-3">
               <FontAwesomeIcon icon={icon({name: 'search'})} size="xl"/>
             </li>
           </ul>

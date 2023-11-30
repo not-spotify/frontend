@@ -5,7 +5,16 @@ interface ISideMenuState {
 
 }
 
-export default function SidePanel() {
+interface ISideMenuProps {
+  renderMode: ISideMenuRenderMode
+}
+
+export enum ISideMenuRenderMode {
+  Thin,
+  Wide
+}
+
+export default function SidePanel(props: ISideMenuProps) {
   return (
     <>
       <Menu></Menu>
