@@ -14,7 +14,7 @@ interface IRootLayoutProps {
 }
 
 interface IRootLayoutState {
-  sidePanelWidthOffset: number,
+  sidePanelRenderModeCounter: number,
   sidePanelResizing: boolean,
   mouseClientXPrev: number,
   sidePanelRenderMode: ISidePanelRenderMode
@@ -22,7 +22,7 @@ interface IRootLayoutState {
 
 export default function RootLayout(props: IRootLayoutProps) {
   const [state, setState] = useState({
-    sidePanelWidthOffset: 0,
+    sidePanelRenderModeCounter: 0,
     sidePanelResizing: false,
     mouseClientXPrev: 0
   } as IRootLayoutState)
@@ -48,16 +48,15 @@ export default function RootLayout(props: IRootLayoutProps) {
       if (sideBarRefCopy && state.sidePanelResizing) {
         const dx = state.mouseClientXPrev - event.clientX
 
-        const newSidePanelWidthOffset = Math.max(80, Math.min(256, state.sidePanelWidthOffset - dx));
-        const newSidePanelRenderMode = newSidePanelWidthOffset > 176 ? ISidePanelRenderMode.Wide : ISidePanelRenderMode.Thin;
+        const newSidePanelWidthOffset = Math.max(0, Math.min(64, state.sidePanelRenderModeCounter - dx));
+        const newSidePanelRenderMode = newSidePanelWidthOffset > 32 ? ISidePanelRenderMode.Wide : ISidePanelRenderMode.Thin;
 
-        sideBarRefCopy.style.width = `${newSidePanelRenderMode == ISidePanelRenderMode.Wide ? 256 : 80}px`
         document.body.style.cursor = 'col-resize'
 
         setState((prev) => ({
           ...prev,
           mouseClientXPrev: event.clientX,
-          sidePanelWidthOffset: newSidePanelWidthOffset,
+          sidePanelRenderModeCounter: newSidePanelWidthOffset,
           sidePanelRenderMode: newSidePanelRenderMode
         }))
       }
@@ -88,7 +87,7 @@ export default function RootLayout(props: IRootLayoutProps) {
 
   return (
     <html lang="en">
-    <body>
+    <body style={{minWidth: '768px'}}>
     <BootstrapClient></BootstrapClient>
     <div className={clsx("d-flex flex-column", rootLayoutStyles.default)}>
       <div className="d-flex flex-grow-1" style={{overflow: "auto"}}>

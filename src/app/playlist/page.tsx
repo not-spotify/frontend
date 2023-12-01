@@ -8,7 +8,10 @@ export default function Playlist() {
 
   return (
     <div className="d-flex flex-grow-1 text-white p-1" style={{overflow: "auto"}}>
-      <div className="d-flex rounded flex-fill flex-column bg-dark" style={{overflow: "auto"}}>
+      <div className="d-flex rounded flex-fill flex-column bg-dark" style={{
+        overflow: "auto",
+        background: "linear-gradient(180deg, rgba(201,99,64,1) 0%, rgba(16,16,16,1) 512px)",
+      }}>
         <div className="d-flex sticky-top justify-content-between p-3">
           <div className="d-flex">
             <div className="d-flex rounded-circle align-items-center justify-content-center"
@@ -31,8 +34,8 @@ export default function Playlist() {
           </div>
         </div>
         <div className="d-flex">
-          <div className="d-flex align-items-end p-2">
-            <div className="rounded ratio ratio-1x1"
+          <div className="d-flex align-items-end p-3">
+            <div className="rounded ratio ratio-1x1 shadow"
                  style={{
                    width: '10vw',
                    minWidth: '128px',
@@ -43,9 +46,12 @@ export default function Playlist() {
           <div className="flex-grow-1">
             <p className="my-0">Public Playlist</p>
             <h1 className="display-1 fw-bold">Playlist Name</h1>
-            <p className="small text-secondary">Playlist description</p>
-            <span className="mr-2 small">by <strong>Username</strong></span>
-            <span className="mr-2">30 songs, 1 hr 22 min</span>
+            <p className="small my-0">Playlist description</p>
+            <span className="small">by <strong>Username</strong></span>
+            <span className="m-2">&#8226;</span>
+            <span>30 songs</span>
+            <span className="m-2">&#8226;</span>
+            <span>1 hr 22 min</span>
           </div>
         </div>
         <div className="d-flex justify-content-between p-3">
@@ -82,51 +88,19 @@ export default function Playlist() {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Title</th>
+              <th scope="col">Author</th>
               <th scope="col">Album</th>
+              <th scope="col"></th>
               <th scope="col"><FontAwesomeIcon icon={icon({name: 'clock', style: 'regular'})} size="lg"/></th>
             </tr>
             </thead>
             <tbody>
             <tr>
               <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>3:53</td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>3:53</td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>3:53</td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>3:53</td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>3:53</td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>3:53</td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
+              <td>SampleTitle</td>
+              <td>SampleAuthor</td>
+              <td>SampleAlbum</td>
+              <td><FontAwesomeIcon icon={icon({name: 'heart', style: 'regular'})} size="lg"/></td>
               <td>3:53</td>
             </tr>
             </tbody>

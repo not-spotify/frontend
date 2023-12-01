@@ -20,14 +20,14 @@ export default function SidePanelMenu(props: ISidePanelMenuProps) {
           <div className={clsx("d-flex text-white p-1", styles.default)}>
             <div className={clsx("rounded", styles.menuItemListWrapper)}>
               <div className={clsx("d-flex flex-column text-left", styles.menuItemList)}>
-                <div className="text-center p-2">
+                <div className="p-2">
                   <div className="d-flex rounded justify-content-center align-items-center"
                        style={{width: '56px', height: '56px'}}>
                     <FontAwesomeIcon icon={icon({name: 'home'})} size="lg" data-bs-toggle="tooltip"
                                      data-bs-placement="right" title="Home"/>
                   </div>
                 </div>
-                <div className="text-center p-2">
+                <div className="p-2">
                   <div className="d-flex rounded justify-content-center align-items-center"
                        style={{width: '56px', height: '56px'}}>
                     <FontAwesomeIcon icon={icon({name: 'search'})} size="lg" data-bs-toggle="tooltip"
@@ -45,7 +45,7 @@ export default function SidePanelMenu(props: ISidePanelMenuProps) {
           <div className={clsx("d-flex text-white p-1", styles.default)}>
             <div className={clsx("rounded", styles.menuItemListWrapper)}>
               <div className={clsx("d-flex flex-column text-left", styles.menuItemList)}>
-                <div className="d-flex text-center p-2">
+                <div className="d-flex p-2">
                   <div className="d-flex rounded justify-content-center align-items-center"
                        style={{width: '56px', height: '56px'}}>
                     <FontAwesomeIcon icon={icon({name: 'home'})} size="lg" data-bs-toggle="tooltip"
@@ -55,7 +55,7 @@ export default function SidePanelMenu(props: ISidePanelMenuProps) {
                     <div className="py-0 my-0"><strong>Home</strong></div>
                   </div>
                 </div>
-                <div className="d-flex text-center p-2">
+                <div className="d-flex p-2">
                   <div className="d-flex rounded justify-content-center align-items-center"
                        style={{width: '56px', height: '56px'}}>
                     <FontAwesomeIcon icon={icon({name: 'search'})} size="lg" data-bs-toggle="tooltip"

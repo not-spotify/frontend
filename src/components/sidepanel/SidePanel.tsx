@@ -20,7 +20,19 @@ export enum ISidePanelRenderMode {
 
 export default function SidePanel(props: ISideMenuProps) {
   return (
-    <div className="d-flex flex-column" ref={props.renderRef} style={{width: props.renderWidth, overflow: "auto"}}>
+    <div className="d-flex flex-column" ref={props.renderRef} style={{
+      width: (() => {
+        switch (props.renderMode) {
+          case ISidePanelRenderMode.Thin:
+            return '80px'
+          case ISidePanelRenderMode.Wide:
+            return '256px'
+        }
+      })(),
+      minWidth: '80px',
+      maxWidth: '256px',
+      overflow: "auto"
+    }}>
       <SidePanelMenu renderMode={props.renderMode}></SidePanelMenu>
       <SidePanelLibrary renderMode={props.renderMode}></SidePanelLibrary>
     </div>
