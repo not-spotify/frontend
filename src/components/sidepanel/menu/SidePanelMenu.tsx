@@ -52,7 +52,7 @@ export default function SidePanelMenu(props: ISidePanelMenuProps) {
                                      data-bs-placement="right" title="Home"/>
                   </div>
                   <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                    <div className="py-0 my-0">Home</div>
+                    <div className="py-0 my-0"><strong>Home</strong></div>
                   </div>
                 </div>
                 <div className="d-flex text-center p-2">
@@ -62,7 +62,7 @@ export default function SidePanelMenu(props: ISidePanelMenuProps) {
                                      data-bs-placement="right" title="Search"/>
                   </div>
                   <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                    <div className="py-0 my-0">Search</div>
+                    <div className="py-0 my-0"><strong>Search</strong></div>
                   </div>
                 </div>
               </div>

@@ -14,7 +14,9 @@ export default function Player() {
         <div className="rounded"
              style={{width: '64px', height: '64px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
         <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-          <div className="py-0 my-0">Title</div>
+          <div className="py-0 my-0">
+            <strong>Title</strong>
+          </div>
           <div className="small py-0 my-0">Author</div>
         </div>
       </div>

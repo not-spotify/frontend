@@ -42,16 +42,20 @@ export default function SidePanelLibrary(props: ISidePanelLibraryProps) {
                 <li className="nav-item p-2 d-flex">
                   <div className="rounded"
                        style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                  <div className="flex-grow-1 text-left px-2">
-                    <div className="py-0 my-0">Playlist Title</div>
+                  <div className="d-flex flex-column flex-grow-1 text-left px-2 justify-content-center">
+                    <div className="py-0 my-0">
+                      <strong>Playlist Title</strong>
+                    </div>
                     <div className="small py-0 my-0">by Username</div>
                   </div>
                 </li>
                 <li className="nav-item p-2 d-flex">
                   <div className="rounded"
                        style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                  <div className="flex-grow-1 text-left px-2">
-                    <div className="py-0 my-0">Playlist Title</div>
+                  <div className="d-flex flex-column flex-grow-1 text-left px-2 justify-content-center">
+                    <div className="py-0 my-0">
+                      <strong>Playlist Title</strong>
+                    </div>
                     <div className="small py-0 my-0">by Username</div>
                   </div>
                 </li>

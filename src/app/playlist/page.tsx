@@ -42,9 +42,9 @@ export default function Playlist() {
           </div>
           <div className="flex-grow-1">
             <p className="my-0">Public Playlist</p>
-            <h1 className="display-1 fw-bold">Display 1</h1>
+            <h1 className="display-1 fw-bold">Playlist Name</h1>
             <p className="small text-secondary">Playlist description</p>
-            <span className="mr-2 small">by Username</span>
+            <span className="mr-2 small">by <strong>Username</strong></span>
             <span className="mr-2">30 songs, 1 hr 22 min</span>
           </div>
         </div>
