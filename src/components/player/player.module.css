@@ -1,3 +1,15 @@
 .default {
     background-color: rgba(0, 0, 0, 255);
 }
+
+.trackInfo {
+    max-width: 320px;
+}
+
+.commonControls {
+    max-width: 512px;
+}
+
+.miscControls {
+    max-width: 320px;
+}

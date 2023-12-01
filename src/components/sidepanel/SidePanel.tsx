@@ -1,24 +1,28 @@
-import Menu from "@/components/sidepanel/menu/Menu";
-import Library from "@/components/sidepanel/library/Library";
+import SidePanelMenu from "@/components/sidepanel/menu/SidePanelMenu";
+import SidePanelLibrary from "@/components/sidepanel/library/SidePanelLibrary";
+import {Property} from "csstype";
+import {RefObject} from "react";
 
 interface ISideMenuState {
 
 }
 
 interface ISideMenuProps {
-  renderMode: ISideMenuRenderMode
+  renderMode: ISidePanelRenderMode,
+  renderWidth: Property.Width<string | number> | undefined,
+  renderRef: RefObject<HTMLDivElement>
 }
 
-export enum ISideMenuRenderMode {
+export enum ISidePanelRenderMode {
   Thin,
   Wide
 }
 
 export default function SidePanel(props: ISideMenuProps) {
   return (
-    <>
-      <Menu></Menu>
-      <Library></Library>
-    </>
+    <div className="d-flex flex-column" ref={props.renderRef} style={{width: props.renderWidth, overflow: "auto"}}>
+      <SidePanelMenu renderMode={props.renderMode}></SidePanelMenu>
+      <SidePanelLibrary renderMode={props.renderMode}></SidePanelLibrary>
+    </div>
   )
 }
