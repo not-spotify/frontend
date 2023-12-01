@@ -19,7 +19,7 @@ export default function Player() {
         </div>
       </div>
       <div className={clsx("d-flex flex-fill flex-column justify-content-evenly px-4", styles.commonControls)}>
-        <div className={clsx("d-flex align-self-center")}>
+        <div className="d-flex align-self-center">
           <div className="px-3">
             <FontAwesomeIcon icon={icon({name: 'shuffle'})} size="lg"/>
           </div>
@@ -44,16 +44,16 @@ export default function Player() {
         </div>
       </div>
       <div className={clsx("d-flex flex-fill justify-content-end align-items-center", styles.miscControls)}>
-        <div className={clsx("d-flex")}>
-          <div className="nav-item px-2">
+        <div className="d-flex">
+          <div className="px-2">
             <FontAwesomeIcon icon={icon({name: 'volume-low'})} size="lg" data-bs-toggle="tooltip"
                              title="Volume"/>
           </div>
-          <div className="nav-item px-2">
+          <div className="px-2">
             <FontAwesomeIcon icon={icon({name: 'heart'})} size="lg" data-bs-toggle="tooltip"
                              title="Favorite"/>
           </div>
-          <div className="nav-item px-2">
+          <div className="px-2">
             <FontAwesomeIcon icon={icon({name: 'up-right-and-down-left-from-center'})} size="lg"
                              data-bs-toggle="tooltip"
                              title="Full screen"/>

@@ -17,18 +17,24 @@ export default function SidePanelMenu(props: ISidePanelMenuProps) {
     case ISidePanelRenderMode.Thin:
       return (
         <>
-          <div className={clsx("d-flex text-white p-2", styles.default)}>
-            <div className={clsx("rounded pl-5 pr-5", styles.menuItemListWrapper)}>
-              <ul className={clsx("nav flex-column text-left", styles.menuItemList)}>
-                <li className="nav-item py-3">
-                  <FontAwesomeIcon icon={icon({name: 'home'})} size="lg" data-bs-toggle="tooltip"
-                                   data-bs-placement="right" title="Home"/>
-                </li>
-                <li className="nav-item py-3">
-                  <FontAwesomeIcon icon={icon({name: 'search'})} size="lg" data-bs-toggle="tooltip"
-                                   data-bs-placement="right" title="Search"/>
-                </li>
-              </ul>
+          <div className={clsx("d-flex text-white p-1", styles.default)}>
+            <div className={clsx("rounded", styles.menuItemListWrapper)}>
+              <div className={clsx("d-flex flex-column text-left", styles.menuItemList)}>
+                <div className="text-center p-2">
+                  <div className="d-flex rounded justify-content-center align-items-center"
+                       style={{width: '56px', height: '56px'}}>
+                    <FontAwesomeIcon icon={icon({name: 'home'})} size="lg" data-bs-toggle="tooltip"
+                                     data-bs-placement="right" title="Home"/>
+                  </div>
+                </div>
+                <div className="text-center p-2">
+                  <div className="d-flex rounded justify-content-center align-items-center"
+                       style={{width: '56px', height: '56px'}}>
+                    <FontAwesomeIcon icon={icon({name: 'search'})} size="lg" data-bs-toggle="tooltip"
+                                     data-bs-placement="right" title="Search"/>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </>
@@ -36,32 +42,30 @@ export default function SidePanelMenu(props: ISidePanelMenuProps) {
     case ISidePanelRenderMode.Wide:
       return (
         <>
-          <div className={clsx("d-flex text-white p-2", styles.default)}>
-            <div className={clsx("rounded pl-5 pr-5", styles.menuItemListWrapper)}>
-              <ul className={clsx("nav flex-column text-left", styles.menuItemList)}>
-                <li className="nav-item py-3">
-                  <div className="row">
-                    <div className="col-2">
-                      <FontAwesomeIcon icon={icon({name: 'home'})} size="lg" data-bs-toggle="tooltip"
-                                       data-bs-placement="right" title="Home"/>
-                    </div>
-                    <div className="col">
-                      Home
-                    </div>
+          <div className={clsx("d-flex text-white p-1", styles.default)}>
+            <div className={clsx("rounded", styles.menuItemListWrapper)}>
+              <div className={clsx("d-flex flex-column text-left", styles.menuItemList)}>
+                <div className="d-flex text-center p-2">
+                  <div className="d-flex rounded justify-content-center align-items-center"
+                       style={{width: '56px', height: '56px'}}>
+                    <FontAwesomeIcon icon={icon({name: 'home'})} size="lg" data-bs-toggle="tooltip"
+                                     data-bs-placement="right" title="Home"/>
                   </div>
-                </li>
-                <li className="nav-item py-3">
-                  <div className="row">
-                    <div className="col-2">
-                      <FontAwesomeIcon icon={icon({name: 'search'})} size="lg" data-bs-toggle="tooltip"
-                                       data-bs-placement="right" title="Search"/>
-                    </div>
-                    <div className="col">
-                      Search
-                    </div>
+                  <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
+                    <div className="py-0 my-0">Home</div>
                   </div>
-                </li>
-              </ul>
+                </div>
+                <div className="d-flex text-center p-2">
+                  <div className="d-flex rounded justify-content-center align-items-center"
+                       style={{width: '56px', height: '56px'}}>
+                    <FontAwesomeIcon icon={icon({name: 'search'})} size="lg" data-bs-toggle="tooltip"
+                                     data-bs-placement="right" title="Search"/>
+                  </div>
+                  <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
+                    <div className="py-0 my-0">Search</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </>

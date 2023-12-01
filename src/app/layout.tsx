@@ -95,7 +95,7 @@ export default function RootLayout(props: IRootLayoutProps) {
         <SidePanel renderMode={state.sidePanelRenderMode ?? ISidePanelRenderMode.Thin}
                    renderRef={sideBarRef}></SidePanel>
         <div className={clsx("d-flex", rootLayoutStyles.separator)} ref={separatorRef}></div>
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1 bg-black">
           {props.children}
         </div>
       </div>
