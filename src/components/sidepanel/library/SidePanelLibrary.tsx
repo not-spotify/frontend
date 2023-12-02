@@ -55,7 +55,7 @@ export default function SidePanelLibrary(props: ISidePanelLibraryProps) {
                 <div className="p-2 d-flex">
                   <div className="rounded"
                        style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                  <div className="d-flex flex-column flex-grow-1 text-left px-2 justify-content-center">
+                  <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
                     <div className="py-0 my-0">
                       <strong>Playlist Title</strong>
                     </div>

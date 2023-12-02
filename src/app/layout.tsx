@@ -8,6 +8,7 @@ import clsx from "clsx";
 import rootLayoutStyles from '@/styles/rootLayout.module.css'
 import SidePanel, {ISidePanelRenderMode} from "@/components/sidepanel/SidePanel";
 import Player from "@/components/player/Player";
+import {ProvideAuth} from "@/lib/useAuth";
 
 interface IRootLayoutProps {
   children?: ReactNode
@@ -89,17 +90,19 @@ export default function RootLayout(props: IRootLayoutProps) {
     <html lang="en">
     <body style={{minWidth: '768px'}}>
     <BootstrapClient></BootstrapClient>
-    <div className={clsx("d-flex flex-column", rootLayoutStyles.default)}>
-      <div className="d-flex flex-grow-1" style={{overflow: "auto"}}>
-        <SidePanel renderMode={state.sidePanelRenderMode ?? ISidePanelRenderMode.Thin}
-                   renderRef={sideBarRef}></SidePanel>
-        <div className={clsx("d-flex", rootLayoutStyles.separator)} ref={separatorRef}></div>
-        <div className="d-flex flex-grow-1 bg-black" style={{overflow: "auto"}}>
-          {props.children}
+    <ProvideAuth>
+      <div className={clsx("d-flex flex-column", rootLayoutStyles.default)}>
+        <div className="d-flex flex-grow-1" style={{overflow: "auto"}}>
+          <SidePanel renderMode={state.sidePanelRenderMode ?? ISidePanelRenderMode.Thin}
+                     renderRef={sideBarRef}></SidePanel>
+          <div className={clsx("d-flex", rootLayoutStyles.separator)} ref={separatorRef}></div>
+          <div className="d-flex flex-grow-1 bg-black" style={{overflow: "auto"}}>
+            {props.children}
+          </div>
         </div>
+        <Player></Player>
       </div>
-      <Player></Player>
-    </div>
+    </ProvideAuth>
     </body>
     </html>
   )
