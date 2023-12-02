@@ -5,6 +5,7 @@ import {
   UserRegister
 } from "@/lib/requests/userRequests"
 import {IUserLoginResultDto, IUserMeResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos";
+import {formatAxiosError} from "@/lib/backendRequests";
 
 interface IAuthState {
   userId: string | undefined
@@ -74,6 +75,12 @@ function useProvideAuth(): IAuthContextProps {
         }))
         return res
       })
+      .catch((error) => {
+        setState((prev) => ({
+          ...prev,
+          Status: `Sign in failed! ${formatAxiosError(error)}`
+        }))
+      })
 
     await UserMe()
       .then((res: IUserMeResultDto) => {
@@ -106,6 +113,12 @@ function useProvideAuth(): IAuthContextProps {
           ForceDisplay: false
         }))
         return res
+      })
+      .catch((error) => {
+        setState((prev) => ({
+          ...prev,
+          Status: `Sign up failed! ${formatAxiosError(error)}`
+        }))
       })
   }
 
