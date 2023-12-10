@@ -14,7 +14,7 @@ export interface IRequireAuthState {
 export default function RequireAuth(props: IRequireAuthProps) {
   const auth = useAuth()
 
-  const fetcher = async () => await delay(1000)
+  const fetcher = () => auth.TryRefresh()
 
   const {data, error, isLoading} = useSWRImmutable("RequireAuth", fetcher, {
     revalidateOnFocus: false,

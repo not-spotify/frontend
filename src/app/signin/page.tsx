@@ -1,13 +1,34 @@
+"use client"
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import clsx from "clsx";
 import PageHeader from "@/components/pageHeader/pageHeader";
+import {useAuth} from "@/lib/useAuth";
+import Router from 'next/router'
+import {createRef, useState} from "react";
 
 interface ISignInState {
-
+  emailRef: React.RefObject<HTMLInputElement>
+  passwordRef: React.RefObject<HTMLInputElement>
+  message: string | undefined
 }
 
 export default function SignIn() {
+  const auth = useAuth()
+
+  if (auth.state.userId)
+    Router.replace("/")
+
+  const initialState: ISignInState =
+    {
+      emailRef: createRef(),
+      passwordRef: createRef(),
+      message: undefined
+    }
+
+  const [state, setState] = useState(initialState);
+
   return (
     <div className="d-flex flex-grow-1 text-white p-1" style={{overflow: "auto"}}>
       <div className="d-flex rounded flex-fill flex-column bg-dark" style={{

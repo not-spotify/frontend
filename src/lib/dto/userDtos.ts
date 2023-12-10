@@ -20,5 +20,23 @@ export interface IUserLoginDto {
 }
 
 export interface IUserLoginResultDto {
+  userId: string
   jwtBearer: string
+  refreshToken: string
+  refreshTokenValidDue: Date
+  jwtBearerValidDue: Date
+}
+
+export interface IUserRefreshDto {
+  jti: string
+  refreshToken: string
+  userId: string
+}
+
+export interface IUserRefreshResultDto {
+  userId: string
+  jwtBearer: string
+  refreshToken: string
+  refreshTokenValidDue: Date
+  jwtBearerValidDue: Date
 }
