@@ -6,12 +6,15 @@ import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import PageHeader from "@/components/pageHeader/pageHeader";
 import RequireAuth from "@/components/requireAuth";
 import RequireUser from "@/components/requireUser";
+import {useUser} from "@/lib/useUser";
 
 interface ISettingsState {
 
 }
 
 export default function Settings() {
+  const user = useUser()
+
   return (
     <div className="d-flex flex-grow-1 text-white p-1" style={{overflow: "auto"}}>
       <div className="d-flex rounded flex-fill flex-column bg-dark" style={{
@@ -32,8 +35,11 @@ export default function Settings() {
                     <a className="nav-link text-secondary" href="#">Playback</a>
                   </li>
                 </ul>
-                <div className="d-flex flex-fill p-2 rounded-bottom" style={{background: 'rgba(0, 0, 0, 0.5)'}}>
-                  test
+                <div className="d-flex flex-fill flex-column p-2 rounded-bottom"
+                     style={{background: 'rgba(0, 0, 0, 0.5)'}}>
+                  <p>Username: {user.state.userReadResult?.userName}</p>
+                  <p>Email: {user.state.userReadResult?.email}</p>
+                  <p>Id: {user.state.userReadResult?.id}</p>
                 </div>
               </div>
             </div>

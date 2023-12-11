@@ -13,7 +13,7 @@ export interface IRequireUserState {
 export default function RequireUser(props: IRequireUserProps) {
   const user = useUser()
 
-  const fetcher = () => user.TryRefresh()
+  const fetcher = async () => await user.TryRefresh()
 
   const {data, error, isLoading} = useSWRImmutable("RequireUser", fetcher, {
     revalidateOnFocus: false,

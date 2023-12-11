@@ -56,8 +56,8 @@ export async function UserLogin(dataIn: IUserLoginDto) {
     })
 }
 
-export async function UserRefresh(jwt: string, dataIn: IUserRefreshDto) {
-  return axiosAuthIntercepted.post(`${HTTP_BACKEND_URL}/User/Refresh`, dataIn, {
+export async function UserRefresh(dataIn: IUserRefreshDto) {
+  return axiosDefaultIntercepted.post(`${HTTP_BACKEND_URL}/User/Refresh`, dataIn, {
     headers: {
       'Content-Type': "application/json"
     }

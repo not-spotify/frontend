@@ -161,10 +161,9 @@ function useProvideAuth(): IAuthContextProps {
       ForceDisplay: true
     }))
 
-    const jsonWebToken = state.JsonWebToken ?? throw new Error("state.JsonWebToken is null");
-    const jsonWebTokenData = jwtDecode(jsonWebToken)
+    const jsonWebTokenData = jwtDecode(state.JsonWebToken ?? throw new Error("state.JsonWebToken is null"))
 
-    return await UserRefresh(jsonWebToken, {
+    return await UserRefresh({
       jti: jsonWebTokenData.jti ?? throw new Error("jsonWebTokenData.jti is null"),
       refreshToken: state.RefreshToken ?? throw new Error("state.RefreshToken is null"),
       userId: state.userId ?? throw new Error("state.userId is null")
@@ -193,7 +192,7 @@ function useProvideAuth(): IAuthContextProps {
       })
   }
 
-  function SignOut() {
+  async function SignOut() {
     setState((prev) => ({
       ...prev,
       Status: "Signing out...",
@@ -218,57 +217,52 @@ function useProvideAuth(): IAuthContextProps {
       IsRefreshRequired: false,
       ForceDisplay: false
     }))
+
+    await router.replace("/signin")
   }
 
   async function TryRefresh() {
     const dateNow = new Date()
 
-    console.log("[useAuth:TryRefresh]")
+    console.log("[useAuth:TryRefresh]: Populate state from localStorage...")
 
-    if (!state.userId) {
-      console.log("[useAuth:TryRefresh]: state.userId is missing, try to retrieve from localStorage...")
+    let userId = localStorage.getItem("UserId")
+    let jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
+    let refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
+    let jsonWebToken = localStorage.getItem("JsonWebToken")
+    let refreshToken = localStorage.getItem("RefreshToken")
 
-      let userId = localStorage.getItem("UserId")
-      let jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
-      let refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
-      let jsonWebToken = localStorage.getItem("JsonWebToken")
-      let refreshToken = localStorage.getItem("RefreshToken")
+    let JsonWebTokenExpiresAtDate = (jsonWebTokenExpiresAt ? new Date(jsonWebTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
+    let RefreshTokenExpiresAtDate = (refreshTokenExpiresAt ? new Date(refreshTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
 
-      let JsonWebTokenExpiresAtDate = (jsonWebTokenExpiresAt ? new Date(jsonWebTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
-      let RefreshTokenExpiresAtDate = (refreshTokenExpiresAt ? new Date(refreshTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
+    let isJsonWebTokenValid = JsonWebTokenExpiresAtDate >= dateNow && jsonWebToken
+    let isRefreshTokenInvalid = RefreshTokenExpiresAtDate < dateNow || !refreshToken
 
-      let isJsonWebTokenValid = JsonWebTokenExpiresAtDate >= dateNow && jsonWebToken
-      let isRefreshTokenInvalid = RefreshTokenExpiresAtDate < dateNow || !refreshToken
+    if (userId && isJsonWebTokenValid && !isRefreshTokenInvalid) {
+      console.log("[useAuth:TryRefresh]: userId, jsonWebToken and refreshToken data was found and is valid!")
 
-      if (userId && isJsonWebTokenValid && !isRefreshTokenInvalid) {
-        console.log("[useAuth:TryRefresh]: userId, jsonWebToken and refreshToken data was found and is valid!")
+      setState((prev) => ({
+        ...prev,
+        userId: userId,
+        JsonWebToken: jsonWebToken,
+        JsonWebTokenExpiresAt: new Date(jsonWebTokenExpiresAt),
+        RefreshToken: refreshToken,
+        RefreshTokenExpiresAt: new Date(refreshTokenExpiresAt),
+        IsRefreshRequired: false,
+        ForceDisplay: false
+      }))
 
-        setState((prev) => ({
-          ...prev,
-          userId: userId,
-          JsonWebToken: jsonWebToken,
-          JsonWebTokenExpiresAt: new Date(jsonWebTokenExpiresAt),
-          RefreshToken: refreshToken,
-          RefreshTokenExpiresAt: new Date(refreshTokenExpiresAt),
-          IsRefreshRequired: false,
-          ForceDisplay: false
-        }))
+      return
+    }
 
-        return
-      }
-
-      if (isRefreshTokenInvalid) {
-        console.log("[useAuth:TryRefresh]: refreshToken is not valid, signing out...")
-        await SignOut()
-      }
+    if (isRefreshTokenInvalid) {
+      console.log("[useAuth:TryRefresh]: refreshToken is not valid, signing out...")
+      await SignOut()
     }
 
     return await Refresh()
-      .catch(async () => {
-        console.log("[useAuth:TryRefresh]: Refresh received an error, signing out...")
-
-        await SignOut()
-        await router.replace("/signin")
+      .catch(async (reason) => {
+        console.log(`[useAuth:TryRefresh]: Refresh received an error... ${reason}`)
       })
   }
 

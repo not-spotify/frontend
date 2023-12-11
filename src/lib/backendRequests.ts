@@ -57,7 +57,7 @@ axiosAuthIntercepted.interceptors.request.use(async (config) => {
   //TODO: Refresh auth if needed
 
   if (typeof window !== 'undefined' && localStorage) {
-    const jsonWebToken = localStorage.getItem("JsonWebToken") ?? throw new Error("state.JsonWebToken is null");
+    const jsonWebToken = localStorage.getItem("JsonWebToken");
     const jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
     const refreshToken = localStorage.getItem("RefreshToken")
     const refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
@@ -71,7 +71,7 @@ axiosAuthIntercepted.interceptors.request.use(async (config) => {
 
       console.log("[axiosAuthIntercepted]: Trying to refresh before request, since JsonWebToken no longer valid...")
 
-      return await UserRefresh(jsonWebToken, {
+      return await UserRefresh({
         jti: jsonWebTokenData.jti ?? throw new Error("jsonWebTokenData.jti is null"),
         refreshToken: refreshToken ?? throw new Error("state.RefreshToken is null"),
         userId: userId ?? throw new Error("state.userId is null")

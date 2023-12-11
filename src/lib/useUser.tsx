@@ -31,12 +31,13 @@ export function ProvideUser(props: IProvideUserProps) {
   useEffect((() => {
     provideUser.setState((prev) => ({
       ...prev,
-      IsRefreshRequired: true
+      IsRefreshRequired: true,
+      userReadResult: undefined,
     }))
   }), [auth.state.userId])
 
   useEffect((() => {
-    if (provideUser.state.IsRefreshRequired && auth.state.userId)
+    if (provideUser.state.IsRefreshRequired)
       provideUser.TryRefresh()
   }), [provideUser.state.IsRefreshRequired])
 
@@ -61,9 +62,11 @@ function useProvideUser(): IUserContextProps {
   const [state, setState] = useState(initialState)
 
   async function TryRefresh() {
-    if (!state.IsRefreshRequired) {
-      if (state.userReadResult != undefined)
-        return
+    console.log("[useUser:TryRefresh]: Populate data...")
+
+    if (!state.IsRefreshRequired && state.userReadResult) {
+      console.log("[useUser:TryRefresh]: Refresh is not required...")
+      return
     }
 
     setState((prev) => ({

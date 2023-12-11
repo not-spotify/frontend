@@ -1,11 +1,14 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
+import {useAuth} from "@/lib/useAuth";
 
 interface IPageHeaderState {
 
 }
 
 export default function PageHeader() {
+  const auth = useAuth()
+
   return (
     <div className="d-flex sticky-top justify-content-between p-3">
       <div className="d-flex">
@@ -25,7 +28,7 @@ export default function PageHeader() {
             <li>
               <hr className="dropdown-divider"></hr>
             </li>
-            <li><a className="dropdown-item" href="#">Log out</a></li>
+            <li><a className="dropdown-item" onClick={auth.SignOut}>Log out</a></li>
           </ul>
         </div>
         <div className="d-flex rounded-circle align-items-center justify-content-center mx-1"
