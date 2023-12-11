@@ -8,6 +8,7 @@ import styles from "@/app/app.module.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import clsx from "clsx";
+import MediaItemCard, {IMediaItemCardSize} from "@/components/mediaItemCard/MediaItemCard";
 
 export default function Root() {
   const auth = useAuth()
@@ -29,52 +30,20 @@ export default function Root() {
               <p className="lead">Playlists</p>
               <div className="align-content-center flex-wrap row row-cols-xl-4 row-cols-2 g-2 flex-grow-1">
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Playlist Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">by Username</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Playlist Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">by Username</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Playlist Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">by Username</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Playlist Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">by Username</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
               </div>
             </div>
@@ -82,52 +51,20 @@ export default function Root() {
               <p className="lead">Tracks</p>
               <div className="align-content-center flex-wrap row row-cols-xl-4 row-cols-2 g-2 flex-grow-1">
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">Author</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Title" line2="Author" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">Author</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Title" line2="Author" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">Author</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Title" line2="Author" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
-                  <div className={clsx("p-2 d-flex rounded", styles.appItem)}>
-                    <div className="rounded"
-                         style={{width: '56px', height: '56px', backgroundColor: 'rgba(255, 255, 255, 0.1)'}}></div>
-                    <div className="d-flex flex-column flex-grow-1 text-left px-3 justify-content-center">
-                      <div className="py-0 my-0">
-                        <strong>Title</strong>
-                      </div>
-                      <div className="small py-0 my-0">Author</div>
-                    </div>
-                  </div>
+                  <MediaItemCard line1="Title" line2="Author" fillBackground={true}
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
               </div>
             </div>
