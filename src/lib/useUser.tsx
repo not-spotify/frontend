@@ -1,7 +1,7 @@
 import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState} from "react";
 import {useAuth} from "@/lib/useAuth";
 import {IUserMeResultDto} from "@/lib/dto/userDtos";
-import {throwError} from "@/lib/common";
+import {useRouter} from 'next/navigation';
 import {UserMe} from "@/lib/requests/userRequests";
 import {formatAxiosError} from "@/lib/backendRequests";
 
@@ -49,6 +49,7 @@ export function ProvideUser(props: IProvideUserProps) {
 
 function useProvideUser(): IUserContextProps {
   const auth = useAuth()
+  const router = useRouter()
 
   const initialState: IUserState = {
     IsRefreshRequired: false,

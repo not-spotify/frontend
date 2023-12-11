@@ -1,4 +1,4 @@
-import {axiosDefaultIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests";
+import {axiosAuthIntercepted, axiosDefaultIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests";
 import {
   IUserLoginDto,
   IUserLoginResultDto,
@@ -8,9 +8,10 @@ import {
 } from "@/lib/dto/userDtos";
 
 export async function UserMe() {
-  return axiosDefaultIntercepted.get(`${HTTP_BACKEND_URL}/User/Me`, {
+  return axiosAuthIntercepted.get(`${HTTP_BACKEND_URL}/User/Me`, {
     headers: {
-      'Content-Type': "application/json"
+      'Content-Type': "application/json",
+      // 'Authorization': "Bearer " + jwt
     }
   })
     .then((res) => {
@@ -55,8 +56,8 @@ export async function UserLogin(dataIn: IUserLoginDto) {
     })
 }
 
-export async function UserRefresh(dataIn: IUserRefreshDto) {
-  return axiosDefaultIntercepted.post(`${HTTP_BACKEND_URL}/User/Refresh`, dataIn, {
+export async function UserRefresh(jwt: string, dataIn: IUserRefreshDto) {
+  return axiosAuthIntercepted.post(`${HTTP_BACKEND_URL}/User/Refresh`, dataIn, {
     headers: {
       'Content-Type': "application/json"
     }

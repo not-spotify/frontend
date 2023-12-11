@@ -8,7 +8,7 @@ import {
 import {IUserLoginResultDto, IUserMeResultDto, IUserRefreshResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos";
 import {formatAxiosError} from "@/lib/backendRequests";
 import {jwtDecode} from "jwt-decode";
-import Router from "next/router";
+import {useRouter} from 'next/navigation';
 
 interface IAuthState {
   userId: string | undefined
@@ -69,6 +69,8 @@ export function ProvideAuth(props: IProvideAuthProps) {
 }
 
 function useProvideAuth(): IAuthContextProps {
+  const router = useRouter()
+
   const initialState: IAuthState = {
     userId: undefined,
     JsonWebTokenExpiresAt: undefined,
@@ -104,6 +106,15 @@ function useProvideAuth(): IAuthContextProps {
           IsRefreshRequired: false,
           ForceDisplay: false
         }))
+
+        if (localStorage) {
+          localStorage.setItem("JsonWebTokenExpiresAt", new Date(res.jwtBearerValidDue).toISOString())
+          localStorage.setItem("RefreshTokenExpiresAt", new Date(res.refreshTokenValidDue).toISOString())
+          localStorage.setItem("JsonWebToken", res.jwtBearer)
+          localStorage.setItem("RefreshToken", res.refreshToken)
+          localStorage.setItem("UserId", res.userId)
+        }
+
         return res
       })
       .catch((error) => {
@@ -150,9 +161,10 @@ function useProvideAuth(): IAuthContextProps {
       ForceDisplay: true
     }))
 
-    const jsonWebTokenData = jwtDecode(state.JsonWebToken ?? throw new Error("state.JsonWebToken is null"))
+    const jsonWebToken = state.JsonWebToken ?? throw new Error("state.JsonWebToken is null");
+    const jsonWebTokenData = jwtDecode(jsonWebToken)
 
-    return await UserRefresh({
+    return await UserRefresh(jsonWebToken, {
       jti: jsonWebTokenData.jti ?? throw new Error("jsonWebTokenData.jti is null"),
       refreshToken: state.RefreshToken ?? throw new Error("state.RefreshToken is null"),
       userId: state.userId ?? throw new Error("state.userId is null")
@@ -168,6 +180,15 @@ function useProvideAuth(): IAuthContextProps {
           IsRefreshRequired: false,
           ForceDisplay: false
         }))
+
+        if (localStorage) {
+          localStorage.setItem("JsonWebTokenExpiresAt", new Date(res.jwtBearerValidDue).toISOString())
+          localStorage.setItem("RefreshTokenExpiresAt", new Date(res.refreshTokenValidDue).toISOString())
+          localStorage.setItem("JsonWebToken", res.jwtBearer)
+          localStorage.setItem("RefreshToken", res.refreshToken)
+          localStorage.setItem("UserId", res.userId)
+        }
+
         return res
       })
   }
@@ -179,11 +200,13 @@ function useProvideAuth(): IAuthContextProps {
       ForceDisplay: true
     }))
 
-    localStorage.removeItem("UserId")
-    localStorage.removeItem("JsonWebTokenExpiresAt")
-    localStorage.removeItem("RefreshTokenExpiresAt")
-    localStorage.removeItem("JsonWebToken")
-    localStorage.removeItem("RefreshToken")
+    if (localStorage) {
+      localStorage.removeItem("UserId")
+      localStorage.removeItem("JsonWebTokenExpiresAt")
+      localStorage.removeItem("RefreshTokenExpiresAt")
+      localStorage.removeItem("JsonWebToken")
+      localStorage.removeItem("RefreshToken")
+    }
 
     setState((prev) => ({
       ...prev,
@@ -200,7 +223,11 @@ function useProvideAuth(): IAuthContextProps {
   async function TryRefresh() {
     const dateNow = new Date()
 
+    console.log("[useAuth:TryRefresh]")
+
     if (!state.userId) {
+      console.log("[useAuth:TryRefresh]: state.userId is missing, try to retrieve from localStorage...")
+
       let userId = localStorage.getItem("UserId")
       let jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
       let refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
@@ -213,31 +240,35 @@ function useProvideAuth(): IAuthContextProps {
       let isJsonWebTokenValid = JsonWebTokenExpiresAtDate >= dateNow && jsonWebToken
       let isRefreshTokenInvalid = RefreshTokenExpiresAtDate < dateNow || !refreshToken
 
-      console.log(userId)
-      console.log(JsonWebTokenExpiresAtDate, isJsonWebTokenValid)
-      console.log(RefreshTokenExpiresAtDate, isRefreshTokenInvalid)
+      if (userId && isJsonWebTokenValid && !isRefreshTokenInvalid) {
+        console.log("[useAuth:TryRefresh]: userId, jsonWebToken and refreshToken data was found and is valid!")
 
-      if (userId && isJsonWebTokenValid)
+        setState((prev) => ({
+          ...prev,
+          userId: userId,
+          JsonWebToken: jsonWebToken,
+          JsonWebTokenExpiresAt: new Date(jsonWebTokenExpiresAt),
+          RefreshToken: refreshToken,
+          RefreshTokenExpiresAt: new Date(refreshTokenExpiresAt),
+          IsRefreshRequired: false,
+          ForceDisplay: false
+        }))
+
         return
+      }
 
-      if (userId && isRefreshTokenInvalid)
+      if (isRefreshTokenInvalid) {
+        console.log("[useAuth:TryRefresh]: refreshToken is not valid, signing out...")
         await SignOut()
-    }
-
-    if (!state.IsRefreshRequired) {
-      let isJsonWebTokenValid = (state.JsonWebTokenExpiresAt ?? new Date(-8640000000000000)) >= dateNow && state.JsonWebToken
-      let isRefreshTokenInvalid = (state.RefreshTokenExpiresAt ?? new Date(-8640000000000000)) < dateNow && !state.RefreshToken
-
-      if (state.userId && isJsonWebTokenValid)
-        return
-
-      if (state.userId && isRefreshTokenInvalid)
-        await SignOut()
+      }
     }
 
     return await Refresh()
       .catch(async () => {
-        await Router.replace("/signin")
+        console.log("[useAuth:TryRefresh]: Refresh received an error, signing out...")
+
+        await SignOut()
+        await router.replace("/signin")
       })
   }
 
