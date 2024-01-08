@@ -1,3 +1,5 @@
+// noinspection JSAnnotator
+
 import {axiosAuthIntercepted, axiosDefaultIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests";
 import {
   IUserLoginDto,
@@ -10,8 +12,7 @@ import {
 export async function UserMe() {
   return axiosAuthIntercepted.get(`${HTTP_BACKEND_URL}/User/Me`, {
     headers: {
-      'Content-Type': "application/json",
-      // 'Authorization': "Bearer " + jwt
+      "Content-Type": "application/json"
     }
   })
     .then((res) => {

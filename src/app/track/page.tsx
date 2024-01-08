@@ -1,6 +1,9 @@
+"use client"
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import clsx from "clsx";
+import PageHeader from "@/components/pageHeader/pageHeader";
 
 export default function Track() {
   //TODO: RUD Playlist
@@ -11,27 +14,7 @@ export default function Track() {
         overflow: "auto",
         background: "linear-gradient(180deg, rgba(99,64,201,1) 0%, rgba(16,16,16,1) 512px)",
       }}>
-        <div className="d-flex sticky-top justify-content-between p-3">
-          <div className="d-flex">
-            <div className="d-flex rounded-circle align-items-center justify-content-center"
-                 style={{width: '32px', height: '32px', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
-              <FontAwesomeIcon icon={icon({name: 'chevron-left'})} size="lg" data-bs-toggle="tooltip"
-                               title="Volume"/>
-            </div>
-          </div>
-          <div className="d-flex">
-            <div className="d-flex rounded-circle align-items-center justify-content-center mx-1"
-                 style={{width: '32px', height: '32px', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
-              <FontAwesomeIcon icon={icon({name: 'user'})} size="lg" data-bs-toggle="tooltip"
-                               title="Volume"/>
-            </div>
-            <div className="d-flex rounded-circle align-items-center justify-content-center mx-1"
-                 style={{width: '32px', height: '32px', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
-              <FontAwesomeIcon icon={icon({name: 'bell'})} size="lg" data-bs-toggle="tooltip"
-                               title="Favorite"/>
-            </div>
-          </div>
-        </div>
+        <PageHeader></PageHeader>
         <div className="d-flex">
           <div className="d-flex align-items-end p-3">
             <div className="rounded ratio ratio-1x1 shadow"
