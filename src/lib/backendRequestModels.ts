@@ -12,6 +12,10 @@ export interface IPageModel {
 }
 
 export interface IPageModelResult<T> {
-  Items: T[]
-  TotalCount: number
+  items: T[]
+  totalCount: number
+}
+
+export interface IEntityCollectionPagination {
+  PageModel: IPageModel
 }
