@@ -1,14 +1,10 @@
 import {TrackVisibility} from "@/lib/enums/TrackVisibility";
 
 export interface ITrackReadResultDto {
-  type: string,
-  title: string,
-  status: number,
-  detail: string,
-  instance: string,
-  additionalProp1: string,
-  additionalProp2: string,
-  additionalProp3: string
+  coverUri: string
+  name: string
+  author: string
+  visibility: TrackVisibility,
 }
 
 export interface ITrackUpdateDto {
