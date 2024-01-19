@@ -161,12 +161,22 @@ function useProvideAuth(): IAuthContextProps {
       ForceDisplay: true
     }))
 
-    const jsonWebTokenData = jwtDecode(state.JsonWebToken ?? throw new Error("state.JsonWebToken is null"))
+    if (!state.JsonWebToken)
+      throw new Error("state.JsonWebToken is null")
+
+    const jsonWebTokenData = jwtDecode(state.JsonWebToken)
+
+    if (!jsonWebTokenData.jti)
+      throw new Error("jsonWebTokenData.jti is null")
+    if (!state.RefreshToken)
+      throw new Error("state.RefreshToken is null")
+    if (!state.userId)
+      throw new Error("state.userId is null")
 
     return await UserRefresh({
-      jti: jsonWebTokenData.jti ?? throw new Error("jsonWebTokenData.jti is null"),
-      refreshToken: state.RefreshToken ?? throw new Error("state.RefreshToken is null"),
-      userId: state.userId ?? throw new Error("state.userId is null")
+      jti: jsonWebTokenData.jti,
+      refreshToken: state.RefreshToken,
+      userId: state.userId
     })
       .then((res: IUserRefreshResultDto) => {
         setState((prev) => ({

@@ -33,8 +33,13 @@ export default function SignIn() {
   async function handleAuthSignIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const email = state.emailRef.current?.value ?? throw new Error("email is null")
-    const password = state.passwordRef.current?.value ?? throw new Error("password is null")
+    if (!state.emailRef.current?.value)
+      throw new Error("email is null")
+    if (!state.passwordRef.current?.value)
+      throw new Error("password is null")
+
+    const email = state.emailRef.current.value
+    const password = state.passwordRef.current.value
 
     await auth.SignIn(email, password)
   }
