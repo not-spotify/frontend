@@ -1,6 +1,4 @@
-// noinspection JSAnnotator
-
-import {axiosAuthIntercepted, axiosDefaultIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests";
+import {axiosAuthIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests";
 import {
   IPlaylistCloneDto,
   IPlaylistCreateDto,
@@ -104,7 +102,7 @@ export async function PlaylistUpdateCollectionTrack(id: string, dataIn: IPlaylis
 }
 
 export async function TrackUpdateCover(id: string, file: File) {
-  let formData = new FormData()
+  const formData = new FormData()
 
   formData.append("cover", file)
 

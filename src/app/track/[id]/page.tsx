@@ -2,10 +2,49 @@
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
-import clsx from "clsx";
 import PageHeader from "@/components/pageHeader/pageHeader";
+import { ITrackReadResultDto } from "@/lib/dto/trackDtos";
+import { useState } from "react";
+import { TrackRead } from "@/lib/requests/trackRequests";
+import useSWRImmutable from "swr/immutable";
 
-export default function Track() {
+interface ITrackParams {
+  id: string
+}
+
+interface ITrackProps {
+  params: ITrackParams
+}
+
+interface ITrackState {
+  track: ITrackReadResultDto | null
+}
+
+export default function Track(props: ITrackProps) {
+  const initialState: ITrackState =
+  {
+    track: null
+  }
+
+  const [state, setState] = useState(initialState)
+
+  const fetcher = async () =>
+  {
+    const trackReadResult = await TrackRead(props.params.id)
+
+    setState((prev) => ({
+      ...prev,
+      track: trackReadResult
+    }))
+  }
+
+  const {data, error, isLoading} = useSWRImmutable(["TrackFetch", props.params.id], fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true,
+    revalidateIfStale: false,
+    shouldRetryOnError: true
+  })
+
   return (
     <div className="d-flex flex-grow-1 text-white p-1" style={{overflow: "auto"}}>
       <div className="d-flex rounded flex-fill flex-column" style={{
@@ -24,7 +63,7 @@ export default function Track() {
                  }}></div>
           </div>
           <div className="flex-grow-1">
-            <p className="my-0">Track</p>
+            <p className="my-0">Track GUID:{props.params.id}</p>
             <h1 className="display-1 fw-bold">Track Name</h1>
             <span className="small">by <strong>Author</strong> on <strong>Album</strong></span>
             <span className="m-2">&#8226;</span>

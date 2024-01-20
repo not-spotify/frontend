@@ -3,7 +3,7 @@
 import './globals.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import BootstrapClient from "@/components/BootstrapClient";
-import {ReactNode, RefObject, useEffect, useLayoutEffect, useRef, useState} from "react"
+import {ReactNode, RefObject, useLayoutEffect, useRef, useState} from "react"
 import clsx from "clsx";
 import rootLayoutStyles from '@/styles/rootLayout.module.css'
 import SidePanel, {ISidePanelRenderMode} from "@/components/sidepanel/SidePanel";

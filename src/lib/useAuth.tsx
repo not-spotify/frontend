@@ -1,11 +1,6 @@
 import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState} from "react";
-import {
-  UserMe,
-  UserLogin,
-  UserRegister,
-  UserRefresh
-} from "@/lib/requests/userRequests"
-import {IUserLoginResultDto, IUserMeResultDto, IUserRefreshResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos";
+import {UserLogin, UserRefresh, UserRegister} from "@/lib/requests/userRequests"
+import {IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos";
 import {formatAxiosError} from "@/lib/backendRequests";
 import {jwtDecode} from "jwt-decode";
 import {useRouter} from 'next/navigation';
@@ -41,11 +36,11 @@ export function ProvideAuth(props: IProvideAuthProps) {
   const provideAuth = useProvideAuth()
 
   useEffect((() => {
-    let userId = localStorage.getItem("UserId")
-    let jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
-    let refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
-    let jsonWebToken = localStorage.getItem("JsonWebToken")
-    let refreshToken = localStorage.getItem("RefreshToken")
+    const userId = localStorage.getItem("UserId")
+    const jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
+    const refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
+    const jsonWebToken = localStorage.getItem("JsonWebToken")
+    const refreshToken = localStorage.getItem("RefreshToken")
 
     provideAuth.setState((prev) => ({
       ...prev,
@@ -84,7 +79,7 @@ function useProvideAuth(): IAuthContextProps {
 
   const [state, setState] = useState(initialState)
 
-  async function SignIn(email: string, password: string) {
+  async function SignIn(email: string, password: string): Promise<IUserLoginResultDto> {
     setState((prev) => ({
       ...prev,
       Status: "Signing in...",
@@ -236,17 +231,17 @@ function useProvideAuth(): IAuthContextProps {
 
     console.log("[useAuth:TryRefresh]: Populate state from localStorage...")
 
-    let userId = localStorage.getItem("UserId")
-    let jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
-    let refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
-    let jsonWebToken = localStorage.getItem("JsonWebToken")
-    let refreshToken = localStorage.getItem("RefreshToken")
+    const userId = localStorage.getItem("UserId")
+    const jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
+    const refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
+    const jsonWebToken = localStorage.getItem("JsonWebToken")
+    const refreshToken = localStorage.getItem("RefreshToken")
 
-    let JsonWebTokenExpiresAtDate = (jsonWebTokenExpiresAt ? new Date(jsonWebTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
-    let RefreshTokenExpiresAtDate = (refreshTokenExpiresAt ? new Date(refreshTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
+    const JsonWebTokenExpiresAtDate = (jsonWebTokenExpiresAt ? new Date(jsonWebTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
+    const RefreshTokenExpiresAtDate = (refreshTokenExpiresAt ? new Date(refreshTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
 
-    let isJsonWebTokenValid = JsonWebTokenExpiresAtDate >= dateNow && jsonWebToken
-    let isRefreshTokenInvalid = RefreshTokenExpiresAtDate < dateNow || !refreshToken
+    const isJsonWebTokenValid = JsonWebTokenExpiresAtDate >= dateNow && jsonWebToken
+    const isRefreshTokenInvalid = RefreshTokenExpiresAtDate < dateNow || !refreshToken
 
     if (userId && isJsonWebTokenValid && !isRefreshTokenInvalid) {
       console.log("[useAuth:TryRefresh]: userId, jsonWebToken and refreshToken data was found and is valid!")
@@ -255,9 +250,9 @@ function useProvideAuth(): IAuthContextProps {
         ...prev,
         userId: userId,
         JsonWebToken: jsonWebToken,
-        JsonWebTokenExpiresAt: new Date(jsonWebTokenExpiresAt),
+        JsonWebTokenExpiresAt: JsonWebTokenExpiresAtDate,
         RefreshToken: refreshToken,
-        RefreshTokenExpiresAt: new Date(refreshTokenExpiresAt),
+        RefreshTokenExpiresAt: RefreshTokenExpiresAtDate,
         IsRefreshRequired: false,
         ForceDisplay: false
       }))

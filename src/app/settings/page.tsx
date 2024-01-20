@@ -1,8 +1,5 @@
 "use client"
 
-import clsx from "clsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import PageHeader from "@/components/pageHeader/pageHeader";
 import RequireAuth from "@/components/requireAuth";
 import RequireUser from "@/components/requireUser";

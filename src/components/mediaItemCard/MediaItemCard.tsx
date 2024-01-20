@@ -8,9 +8,9 @@ export enum IMediaItemCardSize {
 }
 
 interface IMediaItemCardProps {
-  line1: string | undefined
-  line2: string | undefined
-  imageSrc: string | undefined
+  line1?: string | null
+  line2?: string | null
+  imageSrc?: string | null
   fillBackground: boolean
   size: IMediaItemCardSize
 }

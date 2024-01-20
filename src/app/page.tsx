@@ -4,10 +4,6 @@ import PageHeader from "@/components/pageHeader/pageHeader";
 import {useAuth} from "@/lib/useAuth";
 import Link from "next/link";
 import {useUser} from "@/lib/useUser";
-import styles from "@/app/app.module.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
-import clsx from "clsx";
 import MediaItemCard, {IMediaItemCardSize} from "@/components/mediaItemCard/MediaItemCard";
 
 export default function Root() {

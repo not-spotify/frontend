@@ -1,6 +1,4 @@
-// noinspection JSAnnotator
-
-import {axiosAuthIntercepted, axiosDefaultIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests";
+import {axiosAuthIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests";
 import {ITrackCreateDto, ITrackCreateQuery, ITrackReadResultDto, ITrackUpdateDto} from "@/lib/dto/trackDtos";
 
 export async function TrackRead(id: string) {
@@ -64,7 +62,7 @@ export async function TrackCreate(dataIn: ITrackCreateDto, dataQueryIn: ITrackCr
 }
 
 export async function TrackUpdateCover(id: string, file: File) {
-  let formData = new FormData()
+  const formData = new FormData()
 
   formData.append("cover", file)
 

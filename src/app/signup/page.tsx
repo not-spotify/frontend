@@ -1,8 +1,5 @@
 "use client"
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
-import clsx from "clsx";
 import PageHeader from "@/components/pageHeader/pageHeader";
 
 interface ISignUpState {

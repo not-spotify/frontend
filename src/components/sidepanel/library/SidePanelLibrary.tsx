@@ -26,7 +26,7 @@ export default function SidePanelLibrary(props: ISidePanelLibraryProps) {
                                  data-bs-placement="right" title="Your Library"/>
               </div>
             </div>
-            <MediaItemCard size={IMediaItemCardSize.Small}></MediaItemCard>
+            <MediaItemCard fillBackground={false} size={IMediaItemCardSize.Small}></MediaItemCard>
           </div>
         </div>
       )
@@ -44,7 +44,7 @@ export default function SidePanelLibrary(props: ISidePanelLibraryProps) {
                 <div className="py-0 my-0"><strong>Your Library</strong></div>
               </div>
             </div>
-            <MediaItemCard line1="Playlist Title" line2="by Username"
+            <MediaItemCard fillBackground={false} line1="Playlist Title" line2="by Username"
                            size={IMediaItemCardSize.Medium}></MediaItemCard>
           </div>
         </div>

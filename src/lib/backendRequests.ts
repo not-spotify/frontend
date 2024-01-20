@@ -1,8 +1,8 @@
-import axios, {AxiosError} from "axios"
+import axios from "axios"
 import * as qs from "qs"
 import {IDtoError} from "@/lib/backendRequestModels";
 import {UserRefresh} from "@/lib/requests/userRequests";
-import {jwtDecode} from "jwt-decode";
+import {JwtPayload, jwtDecode} from "jwt-decode";
 import {IUserRefreshResultDto} from "@/lib/dto/userDtos";
 
 export const HTTP_BACKEND_URL = "http://localhost:9780"
@@ -54,20 +54,18 @@ axiosAuthIntercepted.defaults.paramsSerializer = {
 
 axiosAuthIntercepted.interceptors.request.use(async (config) => {
   const dateNow = new Date()
-  //TODO: Refresh auth if needed
 
   if (typeof window !== 'undefined' && localStorage) {
-    const jsonWebToken = localStorage.getItem("JsonWebToken");
+    const jsonWebToken = localStorage.getItem("JsonWebToken")
     const jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
     const refreshToken = localStorage.getItem("RefreshToken")
     const refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
     const userId = localStorage.getItem("UserId")
+    const isJsonWebTokenValid = (new Date(jsonWebTokenExpiresAt ?? -8640000000000000)) >= dateNow
+    const isRefreshTokenInvalid = (new Date(refreshTokenExpiresAt ?? -8640000000000000)) < dateNow && !refreshToken
 
-    let isJsonWebTokenValid = (new Date(jsonWebTokenExpiresAt ?? -8640000000000000)) >= dateNow && jsonWebToken
-    let isRefreshTokenInvalid = (new Date(refreshTokenExpiresAt ?? -8640000000000000)) < dateNow && !refreshToken
-
-    if (!isJsonWebTokenValid && !isRefreshTokenInvalid) {
-      const jsonWebTokenData = jwtDecode(jsonWebToken)
+    if (!isJsonWebTokenValid && !isRefreshTokenInvalid && jsonWebToken) {
+      const jsonWebTokenData = jwtDecode<JwtPayload>(jsonWebToken)
 
       console.log("[axiosAuthIntercepted]: Trying to refresh before request, since JsonWebToken no longer valid...")
 
