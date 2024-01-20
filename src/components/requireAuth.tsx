@@ -26,7 +26,7 @@ export default function RequireAuth(props: IRequireAuthProps) {
     return (
       <Loading>
         <span>Authentication</span>
-        <small className="text-secondary">{auth.state.Status}</small>
+        <small className="text-secondary">{auth.state.message}</small>
       </ Loading>
     )
   if (error)
@@ -34,7 +34,7 @@ export default function RequireAuth(props: IRequireAuthProps) {
       <Loading>
         <span>Authentication</span>
         <small className="text-warning">{error.message}</small>
-        <small className="text-secondary">{auth.state.Status}</small>
+        <small className="text-secondary">{auth.state.message}</small>
       </ Loading>
     )
 

@@ -1,17 +1,17 @@
-import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState} from "react";
-import {UserLogin, UserRefresh, UserRegister} from "@/lib/requests/userRequests"
-import {IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos";
-import {formatAxiosError} from "@/lib/backendRequests";
-import {jwtDecode} from "jwt-decode";
-import {useRouter} from 'next/navigation';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
+import { UserLogin, UserRefresh, UserRegister } from "@/lib/requests/userRequests"
+import { IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto } from "@/lib/dto/userDtos";
+import { formatAxiosError } from "@/lib/backendRequests";
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from 'next/navigation';
 
 interface IAuthState {
-  userId: string | undefined
-  JsonWebTokenExpiresAt: Date | undefined
-  RefreshTokenExpiresAt: Date | undefined
-  JsonWebToken: string | undefined
-  RefreshToken: string | undefined
-  Status: string | undefined
+  userId?: string
+  JsonWebTokenExpiresAt?: Date
+  RefreshTokenExpiresAt?: Date
+  JsonWebToken?: string
+  RefreshToken?: string
+  message?: string
   IsRefreshRequired: boolean
   ForceDisplay: boolean
 }
@@ -19,9 +19,9 @@ interface IAuthState {
 interface IAuthContextProps {
   state: IAuthState
   setState: Dispatch<SetStateAction<IAuthState>>
-  SignIn: (email: string, password: string) => Promise<IUserLoginResultDto>
-  SignUp: (username: string, email: string, password: string) => Promise<IUserRegisterResultDto>
-  Refresh: () => Promise<IUserRefreshResultDto>
+  SignIn: (email: string, password: string) => Promise<void | IUserLoginResultDto>
+  SignUp: (username: string, email: string, password: string) => Promise<void | IUserRegisterResultDto>
+  Refresh: () => Promise<void | IUserRefreshResultDto>
   SignOut: () => void
   TryRefresh: () => Promise<void>
 }
@@ -67,22 +67,16 @@ function useProvideAuth(): IAuthContextProps {
   const router = useRouter()
 
   const initialState: IAuthState = {
-    userId: undefined,
-    JsonWebTokenExpiresAt: undefined,
-    RefreshTokenExpiresAt: undefined,
-    JsonWebToken: undefined,
-    RefreshToken: undefined,
-    Status: undefined,
     IsRefreshRequired: false,
     ForceDisplay: false
   }
 
   const [state, setState] = useState(initialState)
 
-  async function SignIn(email: string, password: string): Promise<IUserLoginResultDto> {
+  async function SignIn(email: string, password: string) {
     setState((prev) => ({
       ...prev,
-      Status: "Signing in...",
+      message: "Signing in...",
       ForceDisplay: true
     }))
 
@@ -115,7 +109,7 @@ function useProvideAuth(): IAuthContextProps {
       .catch((error) => {
         setState((prev) => ({
           ...prev,
-          Status: `Sign in failed! ${formatAxiosError(error)}`
+          message: `Sign in failed! ${formatAxiosError(error)}`
         }))
       })
 
@@ -125,7 +119,7 @@ function useProvideAuth(): IAuthContextProps {
   async function SignUp(username: string, email: string, password: string) {
     setState((prev) => ({
       ...prev,
-      Status: "Signing up...",
+      message: "Signing up...",
       ForceDisplay: true
     }))
 
@@ -144,7 +138,7 @@ function useProvideAuth(): IAuthContextProps {
       .catch((error) => {
         setState((prev) => ({
           ...prev,
-          Status: `Sign up failed! ${formatAxiosError(error)}`
+          message: `Sign up failed! ${formatAxiosError(error)}`
         }))
       })
   }
@@ -152,7 +146,7 @@ function useProvideAuth(): IAuthContextProps {
   async function Refresh() {
     setState((prev) => ({
       ...prev,
-      Status: "Refreshing...",
+      message: "Refreshing...",
       ForceDisplay: true
     }))
 
@@ -200,7 +194,7 @@ function useProvideAuth(): IAuthContextProps {
   async function SignOut() {
     setState((prev) => ({
       ...prev,
-      Status: "Signing out...",
+      message: "Signing out...",
       ForceDisplay: true
     }))
 
@@ -265,7 +259,7 @@ function useProvideAuth(): IAuthContextProps {
       await SignOut()
     }
 
-    return await Refresh()
+    await Refresh()
       .catch(async (reason) => {
         console.log(`[useAuth:TryRefresh]: Refresh received an error... ${reason}`)
       })
