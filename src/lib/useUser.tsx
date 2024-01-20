@@ -4,11 +4,11 @@ import {IUserMeResultDto} from "@/lib/dto/userDtos";
 import {useRouter} from 'next/navigation';
 import {UserMe} from "@/lib/requests/userRequests";
 import {formatAxiosError} from "@/lib/backendRequests";
+import useSWRImmutable from "swr/immutable";
 
 interface IUserState {
-  userReadResult: IUserMeResultDto | undefined
-  Status: string | undefined
-  IsRefreshRequired: boolean,
+  userReadResult?: IUserMeResultDto
+  message?: string
   ForceDisplay: boolean
 }
 
@@ -28,18 +28,19 @@ export function ProvideUser(props: IProvideUserProps) {
   const auth = useAuth()
   const provideUser = useProvideUser()
 
-  useEffect((() => {
-    provideUser.setState((prev) => ({
-      ...prev,
-      IsRefreshRequired: true,
-      userReadResult: undefined,
-    }))
-  }), [auth.state.userId])
+  const fetcher = async () =>
+  {
+    console.log("[useUser:ProvideUser]")
 
-  useEffect((() => {
-    if (provideUser.state.IsRefreshRequired)
-      provideUser.TryRefresh()
-  }), [provideUser.state.IsRefreshRequired])
+    provideUser.TryRefresh()
+  }
+
+  const {data, error, isLoading} = useSWRImmutable(["ProvideUser", auth.state.userId], fetcher, {
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+    revalidateIfStale: false,
+    shouldRetryOnError: true
+  })
 
   return (
     <userContext.Provider value={provideUser}>
@@ -53,9 +54,6 @@ function useProvideUser(): IUserContextProps {
   const router = useRouter()
 
   const initialState: IUserState = {
-    IsRefreshRequired: false,
-    Status: undefined,
-    userReadResult: undefined,
     ForceDisplay: false
   }
 
@@ -64,14 +62,9 @@ function useProvideUser(): IUserContextProps {
   async function TryRefresh() {
     console.log("[useUser:TryRefresh]: Populate data...")
 
-    if (!state.IsRefreshRequired && state.userReadResult) {
-      console.log("[useUser:TryRefresh]: Refresh is not required...")
-      return
-    }
-
     setState((prev) => ({
       ...prev,
-      Status: "Refreshing...",
+      message: "Refreshing...",
       ForceDisplay: true
     }))
 
@@ -80,14 +73,14 @@ function useProvideUser(): IUserContextProps {
         setState((prev) => ({
           ...prev,
           userReadResult: res,
-          Status: undefined,
+          message: undefined,
           IsRefreshRequired: false
         }))
       })
       .catch((error) => {
         setState((prev) => ({
           ...prev,
-          Status: `User refresh failed! ${formatAxiosError(error)}`
+          message: `User refresh failed! ${formatAxiosError(error)}`
         }))
       })
   }

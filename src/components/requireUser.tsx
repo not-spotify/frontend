@@ -26,7 +26,7 @@ export default function RequireUser(props: IRequireUserProps) {
     return (
       <Loading>
         <span>User</span>
-        <small className="text-secondary">{user.state.Status}</small>
+        <small className="text-secondary">{user.state.message}</small>
       </ Loading>
     )
   if (error)
@@ -34,7 +34,7 @@ export default function RequireUser(props: IRequireUserProps) {
       <Loading>
         <span>User</span>
         <small className="text-warning">{error.message}</small>
-        <small className="text-secondary">{user.state.Status}</small>
+        <small className="text-secondary">{user.state.message}</small>
       </ Loading>
     )
 

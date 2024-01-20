@@ -4,6 +4,7 @@ import { IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto } fr
 import { formatAxiosError } from "@/lib/backendRequests";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from 'next/navigation';
+import useSWRImmutable from "swr/immutable";
 
 interface IAuthState {
   userId?: string
@@ -12,7 +13,7 @@ interface IAuthState {
   JsonWebToken?: string
   RefreshToken?: string
   message?: string
-  IsRefreshRequired: boolean
+  // IsRefreshRequired: boolean
   ForceDisplay: boolean
 }
 
@@ -35,7 +36,10 @@ interface IProvideAuthProps {
 export function ProvideAuth(props: IProvideAuthProps) {
   const provideAuth = useProvideAuth()
 
-  useEffect((() => {
+  const fetcher = async () =>
+  {
+    console.log("[useAuth:ProvideAuth]")
+
     const userId = localStorage.getItem("UserId")
     const jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
     const refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
@@ -51,10 +55,15 @@ export function ProvideAuth(props: IProvideAuthProps) {
       RefreshTokenExpiresAt: refreshTokenExpiresAt ? new Date(refreshTokenExpiresAt) : undefined,
     }))
 
-    if (provideAuth.state.IsRefreshRequired) {
-      provideAuth.TryRefresh()
-    }
-  }), [provideAuth.state.IsRefreshRequired])
+    provideAuth.TryRefresh()
+  }
+
+  const {data, error, isLoading} = useSWRImmutable(["ProvideAuth"], fetcher, {
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+    revalidateIfStale: false,
+    shouldRetryOnError: true
+  })
 
   return (
     <authContext.Provider value={provideAuth}>
@@ -67,7 +76,6 @@ function useProvideAuth(): IAuthContextProps {
   const router = useRouter()
 
   const initialState: IAuthState = {
-    IsRefreshRequired: false,
     ForceDisplay: false
   }
 
