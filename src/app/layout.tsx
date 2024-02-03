@@ -29,8 +29,8 @@ export default function RootLayout(props: IRootLayoutProps) {
     mouseClientXPrev: 0
   } as IRootLayoutState)
 
-  const sideBarRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null)
-  const separatorRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null)
+  const sideBarRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
+  const separatorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     const sideBarRefCopy = sideBarRef.current

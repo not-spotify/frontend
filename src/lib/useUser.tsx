@@ -1,4 +1,4 @@
-import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState} from "react";
+import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useState} from "react";
 import {useAuth} from "@/lib/useAuth";
 import {IUserMeResultDto} from "@/lib/dto/userDtos";
 import {useRouter} from 'next/navigation';
@@ -28,8 +28,7 @@ export function ProvideUser(props: IProvideUserProps) {
   const auth = useAuth()
   const provideUser = useProvideUser()
 
-  const fetcher = async () =>
-  {
+  const fetcher = async () => {
     console.log("[useUser:ProvideUser]")
 
     provideUser.TryRefresh()

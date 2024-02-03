@@ -1,10 +1,10 @@
 "use client"
 
 import PageHeader from "@/components/pageHeader/pageHeader";
-import { useAuth } from "@/lib/useAuth";
+import {useAuth} from "@/lib/useAuth";
 import Link from "next/link";
-import { useUser } from "@/lib/useUser";
-import MediaItemCard, { IMediaItemCardSize } from "@/components/mediaItemCard/MediaItemCard";
+import {useUser} from "@/lib/useUser";
+import MediaItemCard, {IMediaItemCardSize} from "@/components/mediaItemCard/MediaItemCard";
 
 export default function Root() {
   const auth = useAuth()
@@ -12,7 +12,7 @@ export default function Root() {
 
   if (auth.state.userId) {
     return (
-      <div className="d-flex flex-grow-1 text-white p-1" style={{ overflow: "auto" }}>
+      <div className="d-flex flex-grow-1 text-white p-1" style={{overflow: "auto"}}>
         <div className="d-flex rounded flex-fill flex-column bg-dark" style={{
           overflow: "auto",
           background: "linear-gradient(180deg, rgba(201,99,64,1) 0%, rgba(16,16,16,1) 512px)",
@@ -27,19 +27,19 @@ export default function Root() {
               <div className="align-content-center flex-wrap row row-cols-xl-4 row-cols-2 g-2 flex-grow-1">
                 <div className="col">
                   <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
                   <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
                   <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
                   <MediaItemCard line1="Playlist Title" line2="by Username" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
               </div>
             </div>
@@ -48,19 +48,19 @@ export default function Root() {
               <div className="align-content-center flex-wrap row row-cols-xl-4 row-cols-2 g-2 flex-grow-1">
                 <div className="col">
                   <MediaItemCard line1="Title" line2="Author" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
                   <MediaItemCard line1="Title" line2="Author" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
                   <MediaItemCard line1="Title" line2="Author" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
                 <div className="col">
                   <MediaItemCard line1="Title" line2="Author" fillBackground={true}
-                    size={IMediaItemCardSize.Medium}></MediaItemCard>
+                                 size={IMediaItemCardSize.Medium}></MediaItemCard>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function Root() {
     )
   } else {
     return (
-      <div className="d-flex flex-grow-1 text-white p-1" style={{ overflow: "auto" }}>
+      <div className="d-flex flex-grow-1 text-white p-1" style={{overflow: "auto"}}>
         <div className="d-flex rounded flex-fill flex-column bg-dark" style={{
           overflow: "auto",
           background: "linear-gradient(180deg, rgba(201,99,64,1) 0%, rgba(16,16,16,1) 512px)",

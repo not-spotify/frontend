@@ -1,9 +1,9 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
-import { UserLogin, UserRefresh, UserRegister } from "@/lib/requests/userRequests"
-import { IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto } from "@/lib/dto/userDtos";
-import { formatAxiosError } from "@/lib/backendRequests";
-import { jwtDecode } from "jwt-decode";
-import { useRouter } from 'next/navigation';
+import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useState} from "react";
+import {UserLogin, UserRefresh, UserRegister} from "@/lib/requests/userRequests"
+import {IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos";
+import {formatAxiosError} from "@/lib/backendRequests";
+import {jwtDecode} from "jwt-decode";
+import {useRouter} from 'next/navigation';
 import useSWRImmutable from "swr/immutable";
 
 interface IAuthState {
@@ -36,8 +36,7 @@ interface IProvideAuthProps {
 export function ProvideAuth(props: IProvideAuthProps) {
   const provideAuth = useProvideAuth()
 
-  const fetcher = async () =>
-  {
+  const fetcher = async () => {
     console.log("[useAuth:ProvideAuth]")
 
     const userId = localStorage.getItem("UserId")

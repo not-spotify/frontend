@@ -1,25 +1,34 @@
 import {TrackVisibility} from "@/lib/enums/TrackVisibility";
+import {IPageModelResult} from "@/lib/backendRequestModels";
 
-export interface ITrackReadResultDto {
+export interface ITrackReadUnlinkedResultDto {
   coverUri: string
+  isAvailable: boolean
+  trackUri: string
+  visibility: TrackVisibility
   name: string
   author: string
-  visibility: TrackVisibility,
+}
+
+export interface ITrackReadCollectionResultDto extends IPageModelResult<ITrackReadUnlinkedResultDto> {
+
+}
+
+export interface ITrackReadResultDto extends ITrackReadUnlinkedResultDto {
+
 }
 
 export interface ITrackUpdateDto {
-  visibility: TrackVisibility,
-  coverUri: string,
-  name: string
+  Visibility: TrackVisibility
+  RemoveCover: boolean
+  Cover: File
+  Name: string
 }
 
 export interface ITrackCreateDto {
-  uploadingTrack: string,
-  uploadingCover: string
-}
-
-export interface ITrackCreateQuery {
-  name: string,
-  author: string,
-  visibility: TrackVisibility
+  Name: string
+  Author: string
+  Track: File
+  Cover: File
+  Visibility: TrackVisibility
 }

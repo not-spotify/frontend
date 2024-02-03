@@ -3,9 +3,9 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
 import PageHeader from "@/components/pageHeader/pageHeader";
-import { ITrackReadResultDto } from "@/lib/dto/trackDtos";
-import { useState } from "react";
-import { TrackRead } from "@/lib/requests/trackRequests";
+import {ITrackReadResultDto} from "@/lib/dto/trackDtos";
+import {useState} from "react";
+import {TrackRead} from "@/lib/requests/trackRequests";
 import useSWRImmutable from "swr/immutable";
 
 interface ITrackParams {
@@ -22,14 +22,13 @@ interface ITrackState {
 
 export default function Track(props: ITrackProps) {
   const initialState: ITrackState =
-  {
-    track: null
-  }
+    {
+      track: null
+    }
 
   const [state, setState] = useState(initialState)
 
-  const fetcher = async () =>
-  {
+  const fetcher = async () => {
     const trackReadResult = await TrackRead(props.params.id)
 
     setState((prev) => ({

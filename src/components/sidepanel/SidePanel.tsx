@@ -1,6 +1,5 @@
 import SidePanelMenu from "@/components/sidepanel/menu/SidePanelMenu";
 import SidePanelLibrary from "@/components/sidepanel/library/SidePanelLibrary";
-import {Property} from "csstype";
 import {RefObject} from "react";
 
 interface ISideMenuState {
@@ -9,7 +8,6 @@ interface ISideMenuState {
 
 interface ISideMenuProps {
   renderMode: ISidePanelRenderMode,
-  renderWidth: Property.Width<string | number> | undefined,
   renderRef: RefObject<HTMLDivElement>
 }
 

@@ -33,7 +33,10 @@ export interface IPlaylistCloneDto {
 }
 
 export interface IPlaylistUpdateDto {
-  //TODO: Incomplete API
+  Name: string
+  Visibility: string
+  RemoveCover: boolean
+  Cover: File
 }
 
 export interface IPlaylistUpdateCollectionTrackDto {
@@ -52,4 +55,8 @@ export interface IPlaylistUpdateCollectionTrackResultDto {
 export interface IPlaylistUpdateCollectionUnlinkedTrackResultDto {
   id: string,
   action: PlaylistUpdateTrackActionResult
+}
+
+export interface IPlaylistReadCollectionSearchTrackDto extends IEntityCollectionPagination {
+
 }

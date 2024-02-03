@@ -2,7 +2,7 @@ import axios from "axios"
 import * as qs from "qs"
 import {IDtoError} from "@/lib/backendRequestModels";
 import {UserRefresh} from "@/lib/requests/userRequests";
-import {JwtPayload, jwtDecode} from "jwt-decode";
+import {jwtDecode, JwtPayload} from "jwt-decode";
 import {IUserRefreshResultDto} from "@/lib/dto/userDtos";
 
 export const HTTP_BACKEND_URL = "http://localhost:9780"
