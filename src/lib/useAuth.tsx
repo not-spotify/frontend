@@ -13,7 +13,6 @@ interface IAuthState {
   JsonWebToken?: string
   RefreshToken?: string
   message?: string
-  // IsRefreshRequired: boolean
   ForceDisplay: boolean
 }
 
@@ -99,7 +98,6 @@ function useProvideAuth(): IAuthContextProps {
           JsonWebTokenExpiresAt: res.jwtBearerValidDue,
           RefreshToken: res.refreshToken,
           RefreshTokenExpiresAt: res.refreshTokenValidDue,
-          IsRefreshRequired: false,
           ForceDisplay: false
         }))
 
@@ -186,7 +184,6 @@ function useProvideAuth(): IAuthContextProps {
           JsonWebTokenExpiresAt: res.jwtBearerValidDue,
           RefreshToken: res.refreshToken,
           RefreshTokenExpiresAt: res.refreshTokenValidDue,
-          IsRefreshRequired: false,
           ForceDisplay: false
         }))
 
@@ -224,7 +221,6 @@ function useProvideAuth(): IAuthContextProps {
       JsonWebTokenExpiresAt: undefined,
       RefreshToken: undefined,
       RefreshTokenExpiresAt: undefined,
-      IsRefreshRequired: false,
       ForceDisplay: false
     }))
 
@@ -266,7 +262,6 @@ function useProvideAuth(): IAuthContextProps {
         JsonWebTokenExpiresAt: JsonWebTokenExpiresAtDate,
         RefreshToken: refreshToken,
         RefreshTokenExpiresAt: RefreshTokenExpiresAtDate,
-        IsRefreshRequired: false,
         ForceDisplay: false
       }))
 
