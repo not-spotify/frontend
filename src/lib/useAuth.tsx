@@ -1,10 +1,10 @@
-import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useState} from "react";
+import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useState} from "react"
 import {UserLogin, UserRefresh, UserRegister} from "@/lib/requests/userRequests"
-import {IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos";
-import {formatAxiosError} from "@/lib/backendRequests";
-import {jwtDecode} from "jwt-decode";
-import {useRouter} from 'next/navigation';
-import useSWRImmutable from "swr/immutable";
+import {IUserLoginResultDto, IUserRefreshResultDto, IUserRegisterResultDto} from "@/lib/dto/userDtos"
+import {formatAxiosError} from "@/lib/backendRequests"
+import {jwtDecode} from "jwt-decode"
+import {useRouter} from 'next/navigation'
+import useSWRImmutable from "swr/immutable"
 
 interface IAuthState {
   userId?: string
@@ -13,7 +13,6 @@ interface IAuthState {
   JsonWebToken?: string
   RefreshToken?: string
   message?: string
-  ForceDisplay: boolean
 }
 
 interface IAuthContextProps {
@@ -73,9 +72,7 @@ export function ProvideAuth(props: IProvideAuthProps) {
 function useProvideAuth(): IAuthContextProps {
   const router = useRouter()
 
-  const initialState: IAuthState = {
-    ForceDisplay: false
-  }
+  const initialState: IAuthState = {}
 
   const [state, setState] = useState(initialState)
 
@@ -83,34 +80,12 @@ function useProvideAuth(): IAuthContextProps {
     setState((prev) => ({
       ...prev,
       message: "Signing in...",
-      ForceDisplay: true
     }))
 
-    const result = await UserLogin({
+    const res = await UserLogin({
       email: email,
       password: password
     })
-      .then((res: IUserLoginResultDto) => {
-        setState((prev) => ({
-          ...prev,
-          userId: res.userId,
-          JsonWebToken: res.jwtBearer,
-          JsonWebTokenExpiresAt: res.jwtBearerValidDue,
-          RefreshToken: res.refreshToken,
-          RefreshTokenExpiresAt: res.refreshTokenValidDue,
-          ForceDisplay: false
-        }))
-
-        if (localStorage) {
-          localStorage.setItem("JsonWebTokenExpiresAt", new Date(res.jwtBearerValidDue).toISOString())
-          localStorage.setItem("RefreshTokenExpiresAt", new Date(res.refreshTokenValidDue).toISOString())
-          localStorage.setItem("JsonWebToken", res.jwtBearer)
-          localStorage.setItem("RefreshToken", res.refreshToken)
-          localStorage.setItem("UserId", res.userId)
-        }
-
-        return res
-      })
       .catch((error) => {
         setState((prev) => ({
           ...prev,
@@ -120,14 +95,30 @@ function useProvideAuth(): IAuthContextProps {
         throw error
       })
 
-    return result
+    setState((prev) => ({
+      ...prev,
+      userId: res.userId,
+      JsonWebToken: res.jwtBearer,
+      JsonWebTokenExpiresAt: res.jwtBearerValidDue,
+      RefreshToken: res.refreshToken,
+      RefreshTokenExpiresAt: res.refreshTokenValidDue
+    }))
+
+    if (localStorage) {
+      localStorage.setItem("JsonWebTokenExpiresAt", new Date(res.jwtBearerValidDue).toISOString())
+      localStorage.setItem("RefreshTokenExpiresAt", new Date(res.refreshTokenValidDue).toISOString())
+      localStorage.setItem("JsonWebToken", res.jwtBearer)
+      localStorage.setItem("RefreshToken", res.refreshToken)
+      localStorage.setItem("UserId", res.userId)
+    }
+
+    return res
   }
 
   async function SignUp(username: string, email: string, password: string) {
     setState((prev) => ({
       ...prev,
-      message: "Signing up...",
-      ForceDisplay: true
+      message: "Signing up..."
     }))
 
     return await UserRegister({
@@ -135,13 +126,6 @@ function useProvideAuth(): IAuthContextProps {
       password: password,
       userName: username
     })
-      .then((res: IUserRegisterResultDto) => {
-        setState((prev) => ({
-          ...prev,
-          ForceDisplay: false
-        }))
-        return res
-      })
       .catch((error) => {
         setState((prev) => ({
           ...prev,
@@ -155,8 +139,7 @@ function useProvideAuth(): IAuthContextProps {
   async function Refresh() {
     setState((prev) => ({
       ...prev,
-      message: "Refreshing...",
-      ForceDisplay: true
+      message: "Refreshing..."
     }))
 
     if (!state.JsonWebToken)
@@ -171,39 +154,44 @@ function useProvideAuth(): IAuthContextProps {
     if (!state.userId)
       throw new Error("state.userId is null")
 
-    return await UserRefresh({
+    const res = await UserRefresh({
       jti: jsonWebTokenData.jti,
       refreshToken: state.RefreshToken,
       userId: state.userId
     })
-      .then((res: IUserRefreshResultDto) => {
+      .catch((error) => {
         setState((prev) => ({
           ...prev,
-          userId: res.userId,
-          JsonWebToken: res.jwtBearer,
-          JsonWebTokenExpiresAt: res.jwtBearerValidDue,
-          RefreshToken: res.refreshToken,
-          RefreshTokenExpiresAt: res.refreshTokenValidDue,
-          ForceDisplay: false
+          message: `Auth refresh failed! ${formatAxiosError(error)}`
         }))
 
-        if (localStorage) {
-          localStorage.setItem("JsonWebTokenExpiresAt", new Date(res.jwtBearerValidDue).toISOString())
-          localStorage.setItem("RefreshTokenExpiresAt", new Date(res.refreshTokenValidDue).toISOString())
-          localStorage.setItem("JsonWebToken", res.jwtBearer)
-          localStorage.setItem("RefreshToken", res.refreshToken)
-          localStorage.setItem("UserId", res.userId)
-        }
-
-        return res
+        throw error
       })
+
+    setState((prev) => ({
+      ...prev,
+      userId: res.userId,
+      JsonWebToken: res.jwtBearer,
+      JsonWebTokenExpiresAt: res.jwtBearerValidDue,
+      RefreshToken: res.refreshToken,
+      RefreshTokenExpiresAt: res.refreshTokenValidDue
+    }))
+
+    if (localStorage) {
+      localStorage.setItem("JsonWebTokenExpiresAt", new Date(res.jwtBearerValidDue).toISOString())
+      localStorage.setItem("RefreshTokenExpiresAt", new Date(res.refreshTokenValidDue).toISOString())
+      localStorage.setItem("JsonWebToken", res.jwtBearer)
+      localStorage.setItem("RefreshToken", res.refreshToken)
+      localStorage.setItem("UserId", res.userId)
+    }
+
+    return res
   }
 
   async function SignOut() {
     setState((prev) => ({
       ...prev,
-      message: "Signing out...",
-      ForceDisplay: true
+      message: "Signing out..."
     }))
 
     if (localStorage) {
@@ -220,8 +208,7 @@ function useProvideAuth(): IAuthContextProps {
       JsonWebToken: undefined,
       JsonWebTokenExpiresAt: undefined,
       RefreshToken: undefined,
-      RefreshTokenExpiresAt: undefined,
-      ForceDisplay: false
+      RefreshTokenExpiresAt: undefined
     }))
 
     router.replace("/signin")
@@ -261,8 +248,7 @@ function useProvideAuth(): IAuthContextProps {
         JsonWebToken: jsonWebToken,
         JsonWebTokenExpiresAt: JsonWebTokenExpiresAtDate,
         RefreshToken: refreshToken,
-        RefreshTokenExpiresAt: RefreshTokenExpiresAtDate,
-        ForceDisplay: false
+        RefreshTokenExpiresAt: RefreshTokenExpiresAtDate
       }))
 
       return
@@ -288,5 +274,5 @@ function useProvideAuth(): IAuthContextProps {
 }
 
 export function useAuth() {
-  return useContext(authContext);
+  return useContext(authContext)
 }

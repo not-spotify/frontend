@@ -23,7 +23,7 @@ export default function RequireAuth(props: IRequireAuthProps) {
     shouldRetryOnError: true
   })
 
-  if (isLoading || auth.state.ForceDisplay)
+  if (isLoading || auth.state.message)
     return (
       <Loading>
         <span>Authentication</span>

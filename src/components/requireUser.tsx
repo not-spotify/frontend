@@ -1,6 +1,6 @@
-import {useUser} from "@/lib/useUser";
-import useSWRImmutable from "swr/immutable";
-import {Loading} from "@/components/loading/loading";
+import {useUser} from "@/lib/useUser"
+import useSWRImmutable from "swr/immutable"
+import {Loading} from "@/components/loading/loading"
 
 export interface IRequireUserProps {
   children?: React.ReactNode
@@ -22,7 +22,7 @@ export default function RequireUser(props: IRequireUserProps) {
     shouldRetryOnError: true
   })
 
-  if (isLoading || user.state.ForceDisplay)
+  if (isLoading || user.state.message)
     return (
       <Loading>
         <span>User</span>

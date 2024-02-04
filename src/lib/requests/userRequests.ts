@@ -10,7 +10,7 @@ import {
 } from "@/lib/dto/userDtos"
 
 export async function UserMe() {
-  return (await axiosAuthIntercepted.get(`${HTTP_BACKEND_URL}/User/Me`, {
+  return (await axiosAuthIntercepted.get(`${HTTP_BACKEND_URL}/User/GetMe`, {
     headers: {
       "Content-Type": "application/json"
     }

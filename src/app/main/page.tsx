@@ -5,8 +5,7 @@ import {useAuth} from "@/lib/useAuth"
 import {useUser} from "@/lib/useUser"
 import MediaItemCard, {IMediaItemCardSize} from "@/components/mediaItemCard/MediaItemCard"
 
-export default function Root() {
-  const auth = useAuth()
+export default function Main() {
   const user = useUser()
 
   return (

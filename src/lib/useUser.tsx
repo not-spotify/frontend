@@ -1,15 +1,14 @@
-import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useState} from "react";
-import {useAuth} from "@/lib/useAuth";
-import {IUserMeResultDto} from "@/lib/dto/userDtos";
-import {useRouter} from 'next/navigation';
-import {UserMe} from "@/lib/requests/userRequests";
-import {formatAxiosError} from "@/lib/backendRequests";
-import useSWRImmutable from "swr/immutable";
+import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useState} from "react"
+import {useAuth} from "@/lib/useAuth"
+import {IUserMeResultDto} from "@/lib/dto/userDtos"
+import {useRouter} from 'next/navigation'
+import {UserMe} from "@/lib/requests/userRequests"
+import {formatAxiosError} from "@/lib/backendRequests"
+import useSWRImmutable from "swr/immutable"
 
 interface IUserState {
   userReadResult?: IUserMeResultDto
   message?: string
-  ForceDisplay: boolean
 }
 
 interface IUserContextProps {
@@ -52,9 +51,7 @@ function useProvideUser(): IUserContextProps {
   const auth = useAuth()
   const router = useRouter()
 
-  const initialState: IUserState = {
-    ForceDisplay: false
-  }
+  const initialState: IUserState = {}
 
   const [state, setState] = useState(initialState)
 
@@ -63,8 +60,7 @@ function useProvideUser(): IUserContextProps {
 
     setState((prev) => ({
       ...prev,
-      message: "Refreshing...",
-      ForceDisplay: true
+      message: "Refreshing..."
     }))
 
     await UserMe()
@@ -91,5 +87,5 @@ function useProvideUser(): IUserContextProps {
 }
 
 export function useUser() {
-  return useContext(userContext);
+  return useContext(userContext)
 }

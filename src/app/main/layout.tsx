@@ -36,6 +36,8 @@ export default function MainLayout(props: IMainLayoutProps) {
     const separatorRefCopy = separatorRef.current
 
     const handleSeparatorMouseUp = (event: MouseEvent) => {
+      console.log("handleSeparatorMouseUp")
+
       document.body.style.removeProperty('cursor')
 
       setState((prev) => ({
@@ -47,6 +49,8 @@ export default function MainLayout(props: IMainLayoutProps) {
 
     const handleSeparatorMouseMove = (event: MouseEvent) => {
       if (sideBarRefCopy && state.sidePanelResizing) {
+        console.log("handleSeparatorMouseMove")
+
         const dx = state.mouseClientXPrev - event.clientX
 
         const newSidePanelWidthOffset = Math.max(0, Math.min(64, state.sidePanelRenderModeCounter - dx))
@@ -64,6 +68,8 @@ export default function MainLayout(props: IMainLayoutProps) {
     }
 
     const handleSeparatorMouseDown = (event: MouseEvent) => {
+      console.log("handleSeparatorMouseDown")
+
       setState((prev) => ({
         ...prev,
         sidePanelResizing: true,
