@@ -244,7 +244,7 @@ function useProvideAuth(): IAuthContextProps {
     if (!jsonWebTokenExpiresAt || !jsonWebToken || !refreshTokenExpiresAt || !refreshToken)
     {
       console.log("[useAuth:TryRefresh]: jsonWebToken and refreshToken data was not found, no action...")
-      return;
+      return
     }
 
     const JsonWebTokenExpiresAtDate = (jsonWebTokenExpiresAt ? new Date(jsonWebTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)

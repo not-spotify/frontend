@@ -77,6 +77,8 @@ function useProvideUser(): IUserContextProps {
         }))
       })
       .catch((error) => {
+        console.log(error)
+
         setState((prev) => ({
           ...prev,
           message: `User refresh failed! ${formatAxiosError(error)}`
