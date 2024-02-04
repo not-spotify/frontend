@@ -31,7 +31,7 @@ export function ProvideUser(props: IProvideUserProps) {
   const fetcher = async () => {
     console.log("[useUser:ProvideUser]")
 
-    provideUser.TryRefresh()
+    await provideUser.TryRefresh()
   }
 
   const {data, error, isLoading} = useSWRImmutable(["ProvideUser", auth.state.userId], fetcher, {

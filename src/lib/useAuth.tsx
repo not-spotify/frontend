@@ -54,7 +54,7 @@ export function ProvideAuth(props: IProvideAuthProps) {
       RefreshTokenExpiresAt: refreshTokenExpiresAt ? new Date(refreshTokenExpiresAt) : undefined,
     }))
 
-    provideAuth.TryRefresh()
+    await provideAuth.TryRefresh()
   }
 
   const {data, error, isLoading} = useSWRImmutable(["ProvideAuth"], fetcher, {
