@@ -22,7 +22,7 @@ export default function RequireUser(props: IRequireUserProps) {
     shouldRetryOnError: true
   })
 
-  if (isLoading || user.state.IsRefreshRequired)
+  if (isLoading || user.state.ForceDisplay)
     return (
       <Loading>
         <span>User</span>
