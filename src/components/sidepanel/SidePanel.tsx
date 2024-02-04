@@ -1,6 +1,6 @@
-import SidePanelMenu from "@/components/sidepanel/menu/SidePanelMenu";
-import SidePanelLibrary from "@/components/sidepanel/library/SidePanelLibrary";
-import {RefObject} from "react";
+import SidePanelMenu from "@/components/sidepanel/menu/SidePanelMenu"
+import SidePanelLibrary from "@/components/sidepanel/library/SidePanelLibrary"
+import {RefObject} from "react"
 
 interface ISideMenuState {
 

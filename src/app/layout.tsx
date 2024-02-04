@@ -20,7 +20,10 @@ interface IAppLayoutState {
 export default function AppLayout(props: IAppLayoutProps) {
   return (
     <html lang="en">
-    <body style={{minWidth: '768px'}}>
+    <body style={{
+      minWidth: '768px',
+      userSelect: "none"
+    }}>
     <BootstrapClient></BootstrapClient>
     <ProvideAuth>
       <ProvideUser>
