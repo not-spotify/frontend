@@ -1,24 +1,24 @@
 import axios from "axios"
 import * as qs from "qs"
-import {IDtoError} from "@/lib/backendRequestModels";
-import {UserRefresh} from "@/lib/requests/userRequests";
-import {jwtDecode, JwtPayload} from "jwt-decode";
-import {IUserRefreshResultDto} from "@/lib/dto/userDtos";
+import {IDtoError} from "@/lib/backendRequestModels"
+import {UserRefresh} from "@/lib/requests/userRequests"
+import {jwtDecode, JwtPayload} from "jwt-decode"
+import {IUserRefreshResultDto} from "@/lib/dto/userDtos"
 
 export const HTTP_BACKEND_URL = "http://localhost:9780"
 
 export const DefaultParamsSerializer = (params: object) => {
   if (params instanceof URLSearchParams) {
-    return params.toString();
+    return params.toString()
   }
 
   return qs.stringify(params, {
     indices: false,
     allowDots: true
-  });
-};
+  })
+}
 
-export const IsIDtoError = (value: unknown): value is IDtoError => !!value;
+export const IsIDtoError = (value: unknown): value is IDtoError => !!value
 
 //any -> AxiosError
 export function formatAxiosError(error: any): string {
