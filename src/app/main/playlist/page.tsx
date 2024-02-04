@@ -1,8 +1,10 @@
-import clsx from "clsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
+"use client"
+
+import clsx from "clsx"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {icon} from "@fortawesome/fontawesome-svg-core/import.macro"
 import styles from './playlist.module.css'
-import PageHeader from "@/components/pageHeader/pageHeader";
+import PageHeader from "@/components/pageHeader/pageHeader"
 
 export default function Playlist() {
   //TODO: Display playlist details and songs in it, also actions
