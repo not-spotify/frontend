@@ -1,6 +1,7 @@
 import {useAuth} from "@/lib/useAuth"
 import useSWRImmutable from "swr/immutable"
 import {Loading} from "./loading/loading"
+import React from "react"
 
 export interface IRequireAuthProps {
   children?: React.ReactNode

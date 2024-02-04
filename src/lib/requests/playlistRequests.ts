@@ -1,4 +1,4 @@
-import {axiosAuthIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests"
+import {axiosAuthIntercepted, HTTP_BACKEND_URL} from "@/lib/backendRequests"
 import {
   IPlaylistCloneDto,
   IPlaylistCreateDto,

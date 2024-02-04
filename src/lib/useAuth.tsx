@@ -241,8 +241,7 @@ function useProvideAuth(): IAuthContextProps {
     const jsonWebToken = localStorage.getItem("JsonWebToken")
     const refreshToken = localStorage.getItem("RefreshToken")
 
-    if (!jsonWebTokenExpiresAt || !jsonWebToken || !refreshTokenExpiresAt || !refreshToken)
-    {
+    if (!jsonWebTokenExpiresAt || !jsonWebToken || !refreshTokenExpiresAt || !refreshToken) {
       console.log("[useAuth:TryRefresh]: jsonWebToken and refreshToken data was not found, no action...")
       return
     }

@@ -1,4 +1,4 @@
-import {axiosAuthIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests"
+import {axiosAuthIntercepted, HTTP_BACKEND_URL} from "@/lib/backendRequests"
 import {ITrackCreateDto, ITrackReadResultDto, ITrackUpdateDto} from "@/lib/dto/trackDtos"
 
 export async function TrackRead(id: string) {

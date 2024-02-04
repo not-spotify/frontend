@@ -1,4 +1,4 @@
-import {axiosAuthIntercepted, axiosDefaultIntercepted, formatAxiosError, HTTP_BACKEND_URL} from "@/lib/backendRequests"
+import {axiosAuthIntercepted, axiosDefaultIntercepted, HTTP_BACKEND_URL} from "@/lib/backendRequests"
 import {
   IUserLoginDto,
   IUserLoginResultDto,
