@@ -1,9 +1,9 @@
 "use client"
 
-import PageHeader from "@/components/pageHeader/pageHeader";
-import RequireAuth from "@/components/requireAuth";
-import RequireUser from "@/components/requireUser";
-import {useUser} from "@/lib/useUser";
+import PageHeader from "@/components/pageHeader/pageHeader"
+import RequireAuth from "@/components/requireAuth"
+import RequireUser from "@/components/requireUser"
+import {useUser} from "@/lib/useUser"
 
 interface ISettingsState {
 

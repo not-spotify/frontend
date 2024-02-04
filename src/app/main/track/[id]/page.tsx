@@ -1,12 +1,12 @@
 "use client"
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
-import PageHeader from "@/components/pageHeader/pageHeader";
-import {ITrackReadResultDto} from "@/lib/dto/trackDtos";
-import {useState} from "react";
-import {TrackRead} from "@/lib/requests/trackRequests";
-import useSWRImmutable from "swr/immutable";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {icon} from "@fortawesome/fontawesome-svg-core/import.macro"
+import PageHeader from "@/components/pageHeader/pageHeader"
+import {ITrackReadResultDto} from "@/lib/dto/trackDtos"
+import {useState} from "react"
+import {TrackRead} from "@/lib/requests/trackRequests"
+import useSWRImmutable from "swr/immutable"
 
 interface ITrackParams {
   id: string

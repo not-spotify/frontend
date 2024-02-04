@@ -1,9 +1,9 @@
-import styles from "@/components/sidepanel/library/library.module.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {icon} from "@fortawesome/fontawesome-svg-core/import.macro";
-import clsx from "clsx";
-import {ISidePanelRenderMode} from "@/components/sidepanel/SidePanel";
-import MediaItemCard, {IMediaItemCardSize} from "@/components/mediaItemCard/MediaItemCard";
+import styles from "@/components/sidepanel/library/library.module.css"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {icon} from "@fortawesome/fontawesome-svg-core/import.macro"
+import clsx from "clsx"
+import {ISidePanelRenderMode} from "@/components/sidepanel/SidePanel"
+import MediaItemCard, {IMediaItemCardSize} from "@/components/mediaItemCard/MediaItemCard"
 
 interface ISidePanelLibraryState {
 
