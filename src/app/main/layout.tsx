@@ -2,7 +2,7 @@
 
 import './globals.css'
 import "bootstrap/dist/css/bootstrap.min.css"
-import {ReactNode, RefObject, useCallback, useEffect, useLayoutEffect, useRef, useState} from "react"
+import React, {ReactNode, RefObject, useLayoutEffect, useRef, useState} from "react"
 import clsx from "clsx"
 import SidePanel, {ISidePanelRenderMode} from "@/components/sidepanel/SidePanel"
 import Player from "@/components/player/Player"
@@ -17,37 +17,36 @@ interface IMainLayoutProps {
 interface IMainLayoutState {
   sidePanelRenderModeCounter: number,
   sidePanelResizing: boolean,
-  mouseClientXPrev: number,
+  clientXPrev: number,
   sidePanelRenderMode: ISidePanelRenderMode
 }
 
 export default function MainLayout(props: IMainLayoutProps) {
-  const [state, setState] = useState({
+  const initialState: IMainLayoutState = {
     sidePanelRenderModeCounter: 0,
     sidePanelResizing: false,
-    mouseClientXPrev: 0
-  } as IMainLayoutState)
+    clientXPrev: 0,
+    sidePanelRenderMode: ISidePanelRenderMode.Thin
+  }
+
+  const [state, setState] = useState(initialState)
 
   const sideBarRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
   const separatorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
 
-  const handleSeparatorMouseUp = (event: MouseEvent) => {
-    console.log("handleSeparatorMouseUp")
-
+  const handleSeparatorMouseUpGlobal = (event: MouseEvent) => {
     document.body.style.removeProperty('cursor')
 
     setState((prev) => ({
       ...prev,
       sidePanelResizing: false,
-      mouseClientXPrev: 0
+      clientXPrev: event.clientX,
     }))
   }
 
-  const handleSeparatorMouseMove = (event: MouseEvent) => {
+  const handleSeparatorMouseMoveGlobal = (event: MouseEvent) => {
     if (state.sidePanelResizing) {
-      console.log("handleSeparatorMouseMove")
-
-      const dx = state.mouseClientXPrev - event.clientX
+      const dx = state.clientXPrev - event.clientX
 
       const newSidePanelWidthOffset = Math.max(0, Math.min(64, state.sidePanelRenderModeCounter - dx))
       const newSidePanelRenderMode = newSidePanelWidthOffset > 32 ? ISidePanelRenderMode.Wide : ISidePanelRenderMode.Thin
@@ -56,41 +55,51 @@ export default function MainLayout(props: IMainLayoutProps) {
 
       setState((prev) => ({
         ...prev,
-        mouseClientXPrev: event.clientX,
+        clientXPrev: event.clientX,
         sidePanelRenderModeCounter: newSidePanelWidthOffset,
         sidePanelRenderMode: newSidePanelRenderMode
       }))
     }
   }
 
-  const handleSeparatorMouseDown = (event: MouseEvent) => {
-    console.log("handleSeparatorMouseDown")
-
+  const handleSeparatorMouseMoveGlobalBackground = (event: MouseEvent) => {
     setState((prev) => ({
       ...prev,
-      sidePanelResizing: true,
-      mouseClientXPrev: event.clientX
+      clientXPrev: event.clientX,
     }))
   }
 
-  useEffect(() => {
-    const separatorRefCopy = separatorRef.current
+  const handleSeparatorMouseDownSeparator = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setState((prev) => ({
+      ...prev,
+      sidePanelResizing: true
+    }))
+  }
 
-    document.addEventListener('mouseup', handleSeparatorMouseUp)
-    if (separatorRefCopy)
-      separatorRefCopy.addEventListener('mousedown', handleSeparatorMouseDown)
-
-    return () => {
-      document.removeEventListener('mouseup', handleSeparatorMouseUp)
-      if (separatorRefCopy)
-        separatorRefCopy.removeEventListener('mousedown', handleSeparatorMouseDown)
-    }
-  }, [separatorRef.current])
+  const handleSeparatorMouseDownGlobal = (event: MouseEvent) => {
+    setState((prev) => ({
+      ...prev,
+      clientXPrev: event.clientX
+    }))
+  }
 
   useLayoutEffect(() => {
-    document.addEventListener('mousemove', handleSeparatorMouseMove)
+    document.addEventListener('mousemove', handleSeparatorMouseMoveGlobalBackground)
+
     return () => {
-      document.removeEventListener('mousemove', handleSeparatorMouseMove)
+      document.removeEventListener('mousemove', handleSeparatorMouseMoveGlobalBackground)
+    }
+  }, [])
+
+  useLayoutEffect(() => {
+    document.addEventListener('mousemove', handleSeparatorMouseMoveGlobal)
+    document.addEventListener('mouseup', handleSeparatorMouseUpGlobal)
+    document.addEventListener('mouseup', handleSeparatorMouseDownGlobal)
+
+    return () => {
+      document.removeEventListener('mousemove', handleSeparatorMouseMoveGlobal)
+      document.removeEventListener('mouseup', handleSeparatorMouseUpGlobal)
+      document.removeEventListener('mouseup', handleSeparatorMouseDownGlobal)
     }
   }, [state.sidePanelResizing])
 
@@ -101,7 +110,8 @@ export default function MainLayout(props: IMainLayoutProps) {
           <div className="d-flex flex-grow-1" style={{overflow: "auto"}}>
             <SidePanel renderMode={state.sidePanelRenderMode ?? ISidePanelRenderMode.Thin}
                        renderRef={sideBarRef}></SidePanel>
-            <div className={clsx("d-flex", styles.separator)} ref={separatorRef}></div>
+            <div className={clsx("d-flex", styles.separator)} ref={separatorRef}
+                 onMouseDown={handleSeparatorMouseDownSeparator}></div>
             <div className="d-flex flex-grow-1 bg-black" style={{overflow: "auto"}}>
               {props.children}
             </div>
