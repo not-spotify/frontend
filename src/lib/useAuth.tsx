@@ -118,6 +118,8 @@ function useProvideAuth(): IAuthContextProps {
           ...prev,
           message: `Sign in failed! ${formatAxiosError(error)}`
         }))
+
+        throw error
       })
 
     return result
@@ -147,6 +149,8 @@ function useProvideAuth(): IAuthContextProps {
           ...prev,
           message: `Sign up failed! ${formatAxiosError(error)}`
         }))
+
+        throw error
       })
   }
 
@@ -224,7 +228,7 @@ function useProvideAuth(): IAuthContextProps {
       ForceDisplay: false
     }))
 
-    await router.replace("/signin")
+    router.replace("/signin")
   }
 
   async function TryRefresh() {
@@ -232,11 +236,16 @@ function useProvideAuth(): IAuthContextProps {
 
     console.log("[useAuth:TryRefresh]: Populate state from localStorage...")
 
-    const userId = localStorage.getItem("UserId")
     const jsonWebTokenExpiresAt = localStorage.getItem("JsonWebTokenExpiresAt")
     const refreshTokenExpiresAt = localStorage.getItem("RefreshTokenExpiresAt")
     const jsonWebToken = localStorage.getItem("JsonWebToken")
     const refreshToken = localStorage.getItem("RefreshToken")
+
+    if (!jsonWebTokenExpiresAt || !jsonWebToken || !refreshTokenExpiresAt || !refreshToken)
+    {
+      console.log("[useAuth:TryRefresh]: jsonWebToken and refreshToken data was not found, no action...")
+      return;
+    }
 
     const JsonWebTokenExpiresAtDate = (jsonWebTokenExpiresAt ? new Date(jsonWebTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
     const RefreshTokenExpiresAtDate = (refreshTokenExpiresAt ? new Date(refreshTokenExpiresAt) : undefined) ?? new Date(-8640000000000000)
@@ -244,12 +253,16 @@ function useProvideAuth(): IAuthContextProps {
     const isJsonWebTokenValid = JsonWebTokenExpiresAtDate >= dateNow && jsonWebToken
     const isRefreshTokenInvalid = RefreshTokenExpiresAtDate < dateNow || !refreshToken
 
-    if (userId && isJsonWebTokenValid && !isRefreshTokenInvalid) {
-      console.log("[useAuth:TryRefresh]: userId, jsonWebToken and refreshToken data was found and is valid!")
+    if (isRefreshTokenInvalid) {
+      console.log("[useAuth:TryRefresh]: refreshToken is not valid, signing out...")
+      await SignOut()
+    }
+
+    if (isJsonWebTokenValid && !isRefreshTokenInvalid) {
+      console.log("[useAuth:TryRefresh]: jsonWebToken and refreshToken data was found and is valid!")
 
       setState((prev) => ({
         ...prev,
-        userId: userId,
         JsonWebToken: jsonWebToken,
         JsonWebTokenExpiresAt: JsonWebTokenExpiresAtDate,
         RefreshToken: refreshToken,
@@ -259,11 +272,6 @@ function useProvideAuth(): IAuthContextProps {
       }))
 
       return
-    }
-
-    if (isRefreshTokenInvalid) {
-      console.log("[useAuth:TryRefresh]: refreshToken is not valid, signing out...")
-      await SignOut()
     }
 
     await Refresh()

@@ -3,6 +3,7 @@
 import PageHeader from "@/components/pageHeader/pageHeader";
 import {useAuth} from "@/lib/useAuth";
 import {createRef, useState} from "react";
+import {useRouter} from "next/navigation";
 
 interface ISignUpState {
   usernameRef: React.RefObject<HTMLInputElement>
@@ -13,6 +14,7 @@ interface ISignUpState {
 
 export default function SignUp() {
   const auth = useAuth()
+  const router = useRouter()
 
   const initialState: ISignUpState =
     {
@@ -38,6 +40,9 @@ export default function SignUp() {
     const password = state.passwordRef.current.value
 
     await auth.SignUp(username, email, password)
+      .then(() => {
+        router.replace("/signin")
+      })
   }
 
   return (
