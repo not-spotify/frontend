@@ -4,9 +4,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {icon} from "@fortawesome/fontawesome-svg-core/import.macro"
 import PageHeader from "@/components/pageHeader/pageHeader"
 import {ITrackReadResultDto} from "@/lib/dto/trackDtos"
-import {useState} from "react"
+import React, {useState} from "react"
 import {TrackRead} from "@/lib/requests/trackRequests"
 import useSWRImmutable from "swr/immutable"
+import ImageDisplayLocal from "@/components/imageDisplayLocal"
 
 interface ITrackParams {
   id: string
@@ -44,6 +45,14 @@ export default function Track(props: ITrackProps) {
     shouldRetryOnError: true
   })
 
+  const handlePlay = async (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    //TODO: usePlayer, force play track
+  }
+
+  const handleLike = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    //TODO:
+  }
+
   return (
     <div className="d-flex flex-grow-1 text-white p-1" style={{overflow: "auto"}}>
       <div className="d-flex rounded flex-fill flex-column" style={{
@@ -59,25 +68,27 @@ export default function Track(props: ITrackProps) {
                    minWidth: '128px',
                    maxWidth: '192px',
                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                 }}></div>
+                 }}>
+              <ImageDisplayLocal src={"https://geo-media.beatport.com/image_size/1400x1400/fd2656f5-8731-4814-b565-c903e767e5d5.jpg"}></ImageDisplayLocal>
+            </div>
           </div>
-          <div className="flex-grow-1">
-            <p className="my-0">Track GUID:{props.params.id}</p>
-            <h1 className="display-1 fw-bold">Track Name</h1>
-            <span className="small">by <strong>Author</strong> on <strong>Album</strong></span>
+          <div className="flex-grow-1 placeholder-glow">
+            <h1 className="display-1 fw-bold">{state.track?.name ?? <span className="placeholder col-6">TRACK_NAME</span>}</h1>
+            <span className="small"><strong>{state.track?.author ?? <span className="placeholder col-2">by TRACK_AUTHOR</span>}</strong></span>
             <span className="m-2">&#8226;</span>
-            <span>2023</span>
+            <span><span className="placeholder col-1">TRACK_YEAR</span></span>
             <span className="m-2">&#8226;</span>
-            <span>2 min 33 sec</span>
+            {/*PLAYTIME*/}
+            <span><span className="placeholder col-1">0 hr 00 min</span></span>
           </div>
         </div>
         <div className="d-flex justify-content-between p-3">
           <div className="d-flex align-items-center">
-            <div className="d-flex rounded-circle align-items-center justify-content-center"
+            <div className="d-flex rounded-circle align-items-center justify-content-center" onClick={handlePlay}
                  style={{width: '64px', height: '64px', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
               <FontAwesomeIcon icon={icon({name: 'play'})} size="xl"/>
             </div>
-            <div className="px-3">
+            <div className="px-3" onClick={handleLike}>
               <FontAwesomeIcon icon={icon({name: 'heart'})} size="xl"/>
             </div>
             <div className="px-3">
